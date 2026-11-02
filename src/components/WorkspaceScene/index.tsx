@@ -39,6 +39,11 @@ export type WorkspaceSceneProps = {
   onZoomChange?: (zoomed: boolean) => void;
   /** Accessible label for the scene. */
   label?: string;
+  /**
+   * Pin the theme toggle and the zoomed laptop screen to the viewport instead of the scene box.
+   * Use when the scene is sized larger than the viewport (e.g. cropped to fill the screen).
+   */
+  fixedOverlays?: boolean;
   className?: string;
 };
 
@@ -52,8 +57,10 @@ export function WorkspaceScene({
   defaultZoomed = false,
   onZoomChange,
   label = 'Pixel workspace overlooking the Toronto skyline',
+  fixedOverlays = false,
   className = ''
 }: WorkspaceSceneProps) {
+  const overlayPosition = fixedOverlays ? 'fixed' : 'absolute';
   const [internalTheme, setInternalTheme] = useState<SceneTheme>(defaultTheme);
   const [zoomed, setZoomed] = useState(defaultZoomed);
   const [screenOpen, setScreenOpen] = useState(defaultZoomed);
@@ -224,7 +231,7 @@ export function WorkspaceScene({
         type="button"
         onClick={toggleTheme}
         aria-label={dark ? 'Switch to day' : 'Switch to night'}
-        className="absolute right-3 top-3 z-20 flex h-9 w-9 items-center justify-center rounded-sm border-2 border-border bg-surface text-foreground shadow-sm transition-transform hover:-translate-y-0.5 focus:outline-none focus-visible:ring-4 focus-visible:ring-focus">
+        className={`${overlayPosition} right-3 top-3 z-20 flex h-9 w-9 items-center justify-center rounded-sm border-2 border-border bg-surface text-foreground shadow-sm transition-transform hover:-translate-y-0.5 focus:outline-none focus-visible:ring-4 focus-visible:ring-focus`}>
         
         {dark ? <SunIcon size={16} /> : <MoonIcon size={16} />}
       </button>
@@ -236,7 +243,7 @@ export function WorkspaceScene({
           role="dialog"
           aria-modal="true"
           aria-label="Laptop screen"
-          className="absolute inset-0 z-30 flex bg-laptop-screen-bg-dark p-2 sm:p-4"
+          className={`${overlayPosition} inset-0 z-30 flex bg-laptop-screen-bg-dark p-2 sm:p-4`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
