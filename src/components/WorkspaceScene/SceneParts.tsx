@@ -390,23 +390,23 @@ export function SceneLampBulb() {
 export function SceneMug() {
   return (
     <g>
-      <rect x={256} y={138} width={24} height={20} fill="#f3f1ee" />
-      <rect x={274} y={138} width={6} height={20} fill="#d9d6d0" />
-      <rect x={256} y={136} width={24} height={2} fill="#e6e3de" />
-      <rect x={258} y={137} width={20} height={1} fill="#5b3a26" />
-      <rect x={280} y={142} width={6} height={2} fill="#e6e3de" />
-      <rect x={284} y={142} width={2} height={10} fill="#e6e3de" />
-      <rect x={280} y={150} width={6} height={2} fill="#e6e3de" />
-      <rect x={256} y={157} width={24} height={1} fill="#c9c5bf" />
-      <rect x={258} y={158} width={22} height={1} fill="#8a5531" opacity={0.45} />
+      <rect x={261} y={138} width={14} height={20} fill="#f3f1ee" />
+      <rect x={271} y={138} width={4} height={20} fill="#d9d6d0" />
+      <rect x={261} y={136} width={14} height={2} fill="#e6e3de" />
+      <rect x={262} y={137} width={12} height={1} fill="#5b3a26" />
+      <rect x={275} y={142} width={5} height={2} fill="#e6e3de" />
+      <rect x={278} y={142} width={2} height={10} fill="#e6e3de" />
+      <rect x={275} y={150} width={5} height={2} fill="#e6e3de" />
+      <rect x={261} y={157} width={14} height={1} fill="#c9c5bf" />
+      <rect x={263} y={158} width={13} height={1} fill="#8a5531" opacity={0.45} />
     </g>);
 
 }
 
 export function SceneSteam({ animated }: {animated: boolean;}) {
   const wisps: {x: number;delay: number;path: [number, number][];}[] = [
-  { x: 263, delay: 0, path: [[0, 0], [1, -2], [0, -4], [-1, -6], [0, -8]] },
-  { x: 271, delay: 1.1, path: [[0, 0], [-1, -2], [0, -4], [1, -6], [0, -8]] }];
+  { x: 265, delay: 0, path: [[0, 0], [1, -2], [0, -4], [-1, -6], [0, -8]] },
+  { x: 270, delay: 1.1, path: [[0, 0], [-1, -2], [0, -4], [1, -6], [0, -8]] }];
 
   return (
     <g>
