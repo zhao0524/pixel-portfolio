@@ -1,0 +1,108 @@
+/* --- MANAGED FONT IMPORTS START (do not edit manually) --- */
+/* INTERNAL USE NAME: Heading */
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+/* INTERNAL USE NAME: Body */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+/* INTERNAL USE NAME: Body */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+/* --- MANAGED FONT IMPORTS END --- */
+
+/* @import url() FONT IMPORTS MUST ALWAYS BE AT THE VERY TOP OF THIS FILE, ABOVE THE TAILWIND IMPORTS — DO NOT DELETE THIS COMMENT */
+
+/* CRITICAL: THE FOLLOWING TAILWIND IMPORTS MUST NEVER BE DELETED OR REORDERED — DO NOT DELETE THIS COMMENT */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* END TAILWIND IMPORTS — ALL OTHER CSS MUST GO BELOW THIS LINE */
+
+:root {
+  --background: #fdf6f0;
+  --surface: #fffaf5;
+  --foreground: #4a3d52;
+  --muted: #d8c7d1;
+  --border: #6b5876;
+  --primary: #f9c6d3;
+  --secondary: #c6e7d9;
+  --focus: #cfd8f7;
+  --background-dark: #241b36;
+  --surface-dark: #342a4d;
+  --foreground-dark: #ece3f0;
+  --muted-dark: #8d7fa3;
+  --border-dark: #4f4166;
+  --primary-dark: #f2a8c0;
+  --secondary-dark: #f5dca0;
+  --focus-dark: #b8c4f0;
+  --scene-sky-light: #d8ebf5;
+  --scene-clouds-light: #fffaf0;
+  --scene-water-light: #c7dde2;
+  --scene-wood-light: #ead1a8;
+  --scene-frame-light: #5c4f63;
+  --scene-plants-light: #a8c9a0;
+  --scene-lamp-glow-light: #f7e8c4;
+  --scene-tower-glow-light: #f7d6de;
+  --scene-sky-dark: #241a3d;
+  --scene-clouds-dark: #46406a;
+  --scene-water-dark: #322f5c;
+  --scene-wood-dark: #5a4330;
+  --scene-frame-dark: #332b3d;
+  --scene-plants-dark: #4f6b55;
+  --scene-lamp-glow-dark: #ffdf99;
+  --scene-city-lights-dark: #f8d9a8;
+  --scene-tower-glow-dark: #f6b8c4;
+  --laptop-screen-bg-light: #ffffff;
+  --laptop-screen-bg-dark: #241b36;
+  --laptop-screen-text-light: #6b5876;
+  --laptop-screen-text-dark: #e4d9f0;
+  --laptop-screen-accent: #f9c6d3;
+  --clock-lcd-bg-day: #d7ead9;
+  --clock-lcd-digits-day: #6b5876;
+  --clock-lcd-bg-night: #241b36;
+  --clock-lcd-digits-night: #f5dca0;
+  --spacing-0: 0px;
+  --spacing-hairline: 1px;
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 20px;
+  --spacing-6: 24px;
+  --spacing-8: 32px;
+  --spacing-10: 40px;
+  --spacing-12: 48px;
+  --spacing-16: 64px;
+  --spacing-20: 80px;
+  --spacing-24: 96px;
+  --radius-none: 0px;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-card: 8px;
+  --border-width-1: 1px;
+  --border-width-2: 2px;
+  --border-width-3: 3px;
+  --border-color-outline: #6b5876;
+  --shadow-sm: 2px 2px 0 0 #6b5876;
+  --shadow-md: 4px 4px 0 0 #6b5876;
+  --shadow-lg: 6px 6px 0 0 #6b5876;
+  --shadow-stepped: 2px 2px 0 0 #6b5876, 4px 4px 0 0 #6b5876, 6px 6px 0 0 #6b5876;
+  --shadow-inset: inset 2px 2px 0 0 rgba(255,255,255,0.45), inset -2px -2px 0 0 #6b5876;
+  --shadow-pressed: inset -2px -2px 0 0 #6b5876, inset 2px 2px 0 0 rgba(255,255,255,0.3);
+  --glow-lamp-warm: 0 0 12px 4px rgba(255, 221, 130, 0.55);
+  --glow-tower-pink: 0 0 10px 3px rgba(249, 198, 211, 0.5);
+  --glow-window-lavender: 0 0 14px 4px rgba(207, 216, 247, 0.5);
+}
+/* --- BASE TYPOGRAPHY START (do not edit manually) --- */
+@layer base {
+  body {
+    font-family: var(--font-body, inherit);
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading, var(--font-body, inherit));
+  }
+}
+/* --- BASE TYPOGRAPHY END --- */

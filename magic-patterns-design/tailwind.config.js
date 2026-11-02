@@ -1,0 +1,66 @@
+export default {content: [
+  './index.html',
+  './src/**/*.{js,ts,jsx,tsx}'
+],
+  theme: {
+    extend: {
+      colors: {
+        background: 'var(--background)',
+        surface: 'var(--surface)',
+        foreground: 'var(--foreground)',
+        muted: 'var(--muted)',
+        border: 'var(--border)',
+        primary: 'var(--primary)',
+        secondary: 'var(--secondary)',
+        focus: 'var(--focus)',
+        'background-dark': 'var(--background-dark)',
+        'surface-dark': 'var(--surface-dark)',
+        'foreground-dark': 'var(--foreground-dark)',
+        'muted-dark': 'var(--muted-dark)',
+        'border-dark': 'var(--border-dark)',
+        'primary-dark': 'var(--primary-dark)',
+        'secondary-dark': 'var(--secondary-dark)',
+        'focus-dark': 'var(--focus-dark)',
+        'scene-sky-light': 'var(--scene-sky-light)',
+        'scene-clouds-light': 'var(--scene-clouds-light)',
+        'scene-water-light': 'var(--scene-water-light)',
+        'scene-wood-light': 'var(--scene-wood-light)',
+        'scene-frame-light': 'var(--scene-frame-light)',
+        'scene-plants-light': 'var(--scene-plants-light)',
+        'scene-lamp-glow-light': 'var(--scene-lamp-glow-light)',
+        'scene-tower-glow-light': 'var(--scene-tower-glow-light)',
+        'scene-sky-dark': 'var(--scene-sky-dark)',
+        'scene-clouds-dark': 'var(--scene-clouds-dark)',
+        'scene-water-dark': 'var(--scene-water-dark)',
+        'scene-wood-dark': 'var(--scene-wood-dark)',
+        'scene-frame-dark': 'var(--scene-frame-dark)',
+        'scene-plants-dark': 'var(--scene-plants-dark)',
+        'scene-lamp-glow-dark': 'var(--scene-lamp-glow-dark)',
+        'scene-city-lights-dark': 'var(--scene-city-lights-dark)',
+        'scene-tower-glow-dark': 'var(--scene-tower-glow-dark)',
+        'laptop-screen-bg-light': 'var(--laptop-screen-bg-light)',
+        'laptop-screen-bg-dark': 'var(--laptop-screen-bg-dark)',
+        'laptop-screen-text-light': 'var(--laptop-screen-text-light)',
+        'laptop-screen-text-dark': 'var(--laptop-screen-text-dark)',
+        'laptop-screen-accent': 'var(--laptop-screen-accent)',
+        'clock-lcd-bg-day': 'var(--clock-lcd-bg-day)',
+        'clock-lcd-digits-day': 'var(--clock-lcd-digits-day)',
+        'clock-lcd-bg-night': 'var(--clock-lcd-bg-night)',
+        'clock-lcd-digits-night': 'var(--clock-lcd-digits-night)',
+        'radius-card': 'var(--radius-card)',
+        'border-width-1': 'var(--border-width-1)',
+        'border-width-2': 'var(--border-width-2)',
+        'border-width-3': 'var(--border-width-3)',
+        'border-color-outline': 'var(--border-color-outline)'
+      },
+      boxShadow: {
+        sm: 'var(--shadow-sm)',
+        md: 'var(--shadow-md)',
+        lg: 'var(--shadow-lg)',
+        stepped: 'var(--shadow-stepped)',
+        inset: 'var(--shadow-inset)',
+        pressed: 'var(--shadow-pressed)'
+      }
+    }
+  }
+}
