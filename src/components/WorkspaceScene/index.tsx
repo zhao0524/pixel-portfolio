@@ -105,6 +105,11 @@ export function WorkspaceScene({
     }
   };
 
+  // Only draw the focus ring for keyboard focus, not when an object is clicked.
+  const onKeyboardFocus = (target: 'lamp' | 'laptop') => (e: React.FocusEvent<Element>) => {
+    if (e.currentTarget.matches(':focus-visible')) setFocus(target);
+  };
+
   return (
     <section
       aria-label={label}
@@ -177,9 +182,9 @@ export function WorkspaceScene({
               aria-pressed={dark}
               onClick={toggleTheme}
               onKeyDown={activate(toggleTheme)}
-              onFocus={() => setFocus('lamp')}
+              onFocus={onKeyboardFocus('lamp')}
               onBlur={() => setFocus(null)}
-              className="cursor-pointer outline-none">
+              className="cursor-pointer outline-none [-webkit-tap-highlight-color:transparent]">
               
               <rect x={216} y={92} width={42} height={66} fill="transparent" />
               <SceneLamp />
@@ -191,9 +196,9 @@ export function WorkspaceScene({
               aria-label="Open laptop"
               onClick={() => !zoomed && setZoom(true)}
               onKeyDown={activate(() => !zoomed && setZoom(true))}
-              onFocus={() => setFocus('laptop')}
+              onFocus={onKeyboardFocus('laptop')}
               onBlur={() => setFocus(null)}
-              className="cursor-pointer outline-none">
+              className="cursor-pointer outline-none [-webkit-tap-highlight-color:transparent]">
               
               <SceneLaptopBody />
             </g>
