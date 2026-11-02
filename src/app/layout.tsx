@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#241b36",
+  themeColor: "#fdf6f0",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -24,7 +24,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link rel="stylesheet" href={FONTS_HREF} />
       </head>
-      <body className="bg-background-dark antialiased">{children}</body>
+      <body className="bg-background antialiased">{children}</body>
     </html>
   );
 }

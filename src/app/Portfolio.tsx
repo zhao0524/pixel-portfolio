@@ -10,7 +10,7 @@ const WorkspaceScene = dynamic(
   () => import("@/components/WorkspaceScene").then((m) => m.WorkspaceScene),
   {
     ssr: false,
-    loading: () => <div className="aspect-video w-full bg-scene-sky-dark" />,
+    loading: () => <div className="aspect-video w-full bg-scene-sky-light" />,
   },
 );
 
