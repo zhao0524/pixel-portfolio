@@ -6,6 +6,9 @@ export const CONTACT = {
   linkedin: "https://www.linkedin.com/in/david-zhao-0524dz/",
 };
 
+/** Served from `public/`. */
+export const RESUME_URL = "/David_Zhao_swe.pdf";
+
 export const PROJECTS: LaptopScreenProject[] = [
   {
     title: "A.U.R.A",
@@ -102,6 +105,15 @@ export const PROJECTS: LaptopScreenProject[] = [
 ];
 
 export const EXPERIENCE: LaptopScreenExperience[] = [
+  {
+    role: "Junior Software Developer Intern",
+    company: "Ontario Health",
+    bullets: [
+      "Modernized the healthcare application codebase by coordinating upgrades to 2 core technologies: Angular and Node.js, smoke testing each version increment to catch compatibility issues, and helping teammates update their local environments.",
+      "Helped protect Ontario healthcare data by reviewing code and validating deployment settings across 4 containerized components, using Jenkins and OpenShift to keep sensitive configuration separate from Docker images.",
+      "Supported centralized access to healthcare records across 2+ connected applications by contributing to Redis-backed data pipelines, tracing integration failures through logs and metrics, and checking record consistency across systems.",
+    ],
+  },
   {
     role: "Software Engineer",
     company: "DOUBL",

@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   BriefcaseIcon,
+  DownloadIcon,
+  FileTextIcon,
   FolderIcon,
   MailIcon,
   UserIcon,
@@ -42,6 +44,8 @@ export interface LaptopScreenProps {
   role?: string;
   /** About paragraph */
   bio?: string;
+  /** PDF shown beside the About section, with open / download buttons */
+  resumeUrl?: string;
   projects?: LaptopScreenProject[];
   experience?: LaptopScreenExperience[];
   email?: string;
@@ -101,6 +105,7 @@ export function LaptopScreen({
   name = 'David',
   role = 'Developer & Designer',
   bio = 'Hi! This is a placeholder bio. Tell visitors who you are, what you build, and what you care about.',
+  resumeUrl,
   projects = DEFAULT_PROJECTS,
   experience = DEFAULT_EXPERIENCE,
   email = 'hello@example.com',
@@ -191,11 +196,46 @@ export function LaptopScreen({
               transition={{ duration: 0.15 }}>
               
                 {active === 'about' &&
-              <div className="space-y-4">
-                    <p className="text-xs text-emerald-400">&gt; whoami</p>
-                    <h2 className="text-2xl font-bold text-white sm:text-3xl">{name}</h2>
-                    <p className="text-sm text-amber-300">{role}</p>
-                    <p className="max-w-prose text-sm leading-relaxed text-slate-300">{bio}</p>
+              <div className={resumeUrl ? 'grid gap-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]' : ''}>
+                    <div className="space-y-4">
+                      <p className="text-xs text-emerald-400">&gt; whoami</p>
+                      <h2 className="text-2xl font-bold text-white sm:text-3xl">{name}</h2>
+                      <p className="text-sm text-amber-300">{role}</p>
+                      <p className="max-w-prose text-sm leading-relaxed text-slate-300">{bio}</p>
+                    </div>
+                    {resumeUrl &&
+                <div className="flex flex-col border-2 border-slate-800 bg-slate-900">
+                        <div className="flex items-center justify-between gap-3 border-b-2 border-slate-800 px-3 py-2">
+                          <p className="flex items-center gap-2 text-xs text-slate-300">
+                            <FileTextIcon className="h-3.5 w-3.5 text-emerald-400" aria-hidden="true" />
+                            resume.pdf
+                          </p>
+                          <div className="flex gap-3">
+                            {[
+                      { label: 'Open', icon: ArrowUpRightIcon, download: false },
+                      { label: 'Download', icon: DownloadIcon, download: true }].
+                      map(({ label, icon: Icon, download }) =>
+                      <a
+                        key={label}
+                        href={resumeUrl}
+                        {...download ? { download: '' } : { target: '_blank', rel: 'noreferrer' }}
+                        aria-label={`${label} resume`}
+                        className="inline-flex items-center gap-1 text-[11px] uppercase tracking-wider text-slate-300 hover:text-emerald-400 focus:outline-none focus-visible:text-emerald-400">
+                        
+                                {label}
+                                <Icon className="h-3 w-3" aria-hidden="true" />
+                              </a>
+                      )}
+                          </div>
+                        </div>
+                        {/* Phone browsers can't embed PDFs, so the preview is desktop-only */}
+                        <iframe
+                    src={`${resumeUrl}#view=FitH&navpanes=0&toolbar=0`}
+                    title={`${name}'s resume`}
+                    className="hidden aspect-[8.5/11] w-full bg-white md:block" />
+                  
+                      </div>
+                }
                   </div>
               }
 
