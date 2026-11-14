@@ -13,6 +13,7 @@ All art is drawn on the same 320×180 pixel grid as the skyline, so everything s
 ## Behavior
 - **Lamp / top-right button** toggles day ↔ night. At night a plum colour-matrix copy of the room fades in on top (only opacity is animated), the lamp bulb and a warm glow switch on, and the laptop screen and clock keep glowing.
 - **Laptop** click (or Enter/Space) zooms the scene into the screen and then opens `LaptopScreen`, or `laptopContent` if you provide it. Close with the button or `Esc`.
+- **Claude buddy** sits under the lamp, bobbing gently, with a pixel speech bubble that says "Click on me! I can tell you more about David". Clicking Claude or the bubble (or pressing Enter/Space on it) calls `onClaudeClick`.
 - The clock shows the real time and only re-renders itself.
 - Motion respects `prefers-reduced-motion`.
 
@@ -23,6 +24,8 @@ All art is drawn on the same 320×180 pixel grid as the skyline, so everything s
 | `theme` / `onThemeChange` | controlled theme | — |
 | `laptopContent` | `ReactNode` | `<LaptopScreen />` |
 | `defaultZoomed` / `onZoomChange` | zoom state | `false` |
+| `onClaudeClick` | `() => void` | — |
+| `showClaudeBubble` | `boolean` | `true` |
 | `label` | `string` | scene description |
 | `className` | `string` | — |
 

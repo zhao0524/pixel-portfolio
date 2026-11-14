@@ -403,6 +403,173 @@ export function SceneMug() {
 
 }
 
+/* ---------- Claude buddy (sits on the desk under the lamp) ---------- */
+
+/**
+ * Where Claude's speech bubble floats. `right` is the original design; `above` sits over the
+ * laptop, left of the lamp shade, so it stays visible when the scene's right edge is cropped.
+ */
+export type ClaudeBubblePlacement = 'right' | 'above';
+
+const BUBBLE_W = 70;
+const BUBBLE_H = 17;
+const BUBBLE_ORIGIN: Record<ClaudeBubblePlacement, {x: number;y: number;}> = {
+  right: { x: 242, y: 114 },
+  above: { x: 144, y: 88 }
+};
+
+/** Hit area for Claude's speech bubble, in scene coordinates. */
+export const CLAUDE_BUBBLE_BOUNDS: Record<ClaudeBubblePlacement, {x: number;y: number;width: number;height: number;}> = {
+  right: { x: 241, y: 113, width: 73, height: 25 },
+  above: { x: 143, y: 87, width: 73, height: 21 }
+};
+
+/** Pixel speech bubble floating next to Claude, tail pointing at it. */
+export function SceneClaudeBubble({
+  animated = true,
+  placement = 'right'
+}: {animated?: boolean;placement?: ClaudeBubblePlacement;}) {
+  const font = "'Pixelify Sans', ui-monospace, monospace";
+  const plum = '#6b5876';
+  const paper = '#fffaf5';
+  const { x, y } = BUBBLE_ORIGIN[placement];
+  const w = BUBBLE_W;
+  const h = BUBBLE_H;
+  const b = y + h - 1;
+  // Tail outline and paper fill: from the bubble's bottom edge towards Claude.
+  const tail =
+  placement === 'right' ?
+  { outline: `${x + 3},${b} ${x + 10},${b} ${x - 2},${y + h + 6}`, fill: `${x + 4},${b} ${x + 8},${b} ${x + 1},${y + h + 3}` } :
+  { outline: `${x + w - 12},${b} ${x + w - 5},${b} ${x + w + 5},${y + h + 15}`, fill: `${x + w - 11},${b} ${x + w - 7},${b} ${x + w + 2},${y + h + 11}` };
+  const bubble =
+  <g>
+      {/* Hard plum drop shadow */}
+      <g fill={plum} opacity={0.35}>
+        <rect x={x + 1} y={y + 2} width={w} height={h - 2} />
+        <rect x={x + 2} y={y + 1} width={w - 2} height={h} />
+      </g>
+      {/* Outline with notched pixel corners */}
+      <g fill={plum}>
+        <rect x={x} y={y + 1} width={w} height={h - 2} />
+        <rect x={x + 1} y={y} width={w - 2} height={h} />
+        <polygon points={tail.outline} />
+      </g>
+      {/* Paper fill + tail */}
+      <rect x={x + 1} y={y + 1} width={w - 2} height={h - 2} fill={paper} />
+      <polygon points={tail.fill} fill={paper} />
+      <text
+      x={x + w / 2}
+      y={y + 7}
+      textAnchor="middle"
+      fontSize={4.4}
+      fontFamily={font}
+      fill={plum}
+      fontWeight={700}>
+      
+        Click on me!
+      </text>
+      <text x={x + w / 2} y={y + 13} textAnchor="middle" fontSize={3.6} fontFamily={font} fill={plum}>
+        I can tell you more about David
+      </text>
+    </g>;
+
+  if (!animated) return bubble;
+  return (
+    <motion.g
+      initial={{ opacity: 0, y: 2 }}
+      animate={{ opacity: 1, y: [0, -1, 0] }}
+      transition={{
+        opacity: { duration: 0.4, delay: 0.6 },
+        y: { duration: 2.4, repeat: Infinity, ease: 'easeInOut' }
+      }}>
+      
+      {bubble}
+    </motion.g>);
+
+}
+
+/** Hit area for the Claude buddy, in scene coordinates. */
+export const CLAUDE_BOUNDS = { x: 204, y: 125, width: 34, height: 33 };
+
+export function SceneClaude({
+  animated = true,
+  lit = false,
+  fade = 'opacity 600ms ease-in-out'
+
+
+
+
+
+
+}: {animated?: boolean; /** Lamp is on — casts a shadow away from the lamp and adds a warm rim light. */lit?: boolean; /** CSS transition used to crossfade the lamp-lit layers. */fade?: string;}) {
+  const body = '#dc7a48';
+  const eye = '#141414';
+  const u = 2;
+  const x = 205;
+  const y = 136;
+  const figure =
+  <g>
+      {/* Conical rice hat (nón lá) */}
+      {Array.from({ length: 8 }, (_, i) => {
+      const half = 2 + i * 2;
+      return (
+        <rect
+          key={`hat-${i}`}
+          x={x + 8 * u - half}
+          y={y - 8 + i}
+          width={half * 2}
+          height={1}
+          fill={i === 7 ? '#a87d36' : i % 3 === 2 ? '#c99d4e' : '#e6c784'} />);
+
+
+    })}
+      <rect x={x + 8 * u - 1} y={y - 9} width={2} height={1} fill="#a87d36" />
+      {/* Sunlit left face of the cone */}
+      {Array.from({ length: 6 }, (_, i) =>
+    <rect key={`hat-hi-${i}`} x={x + 8 * u - 2 - i * 2} y={y - 7 + i} width={2} height={1} fill="#f3dca4" />
+    )}
+      {/* Body + arms */}
+      <rect x={x + 2 * u} y={y} width={12 * u} height={8 * u} fill={body} />
+      <rect x={x} y={y + 4 * u} width={2 * u} height={2 * u} fill={body} />
+      <rect x={x + 14 * u} y={y + 4 * u} width={2 * u} height={2 * u} fill={body} />
+      {/* Eyes */}
+      <rect x={x + 4 * u} y={y + 2 * u} width={u} height={2 * u} fill={eye} />
+      <rect x={x + 11 * u} y={y + 2 * u} width={u} height={2 * u} fill={eye} />
+      {/* Legs */}
+      {[3, 5, 10, 12].map((dx) =>
+    <rect key={dx} x={x + dx * u} y={y + 8 * u} width={u} height={2 * u} fill={body} />
+    )}
+      {/* Warm rim light on the lamp-facing side */}
+      <g fill="#ffc48a" style={{ opacity: lit ? 1 : 0, transition: fade }}>
+        <rect x={x + 14 * u - 1} y={y} width={1} height={4 * u} />
+        <rect x={x + 16 * u - 1} y={y + 4 * u} width={1} height={2 * u} />
+        <rect x={x + 2 * u} y={y} width={12 * u} height={1} />
+      </g>
+    </g>;
+
+  return (
+    <g aria-hidden="true">
+      {/* Lamp-cast shadow — falls down-left, away from the lamp head */}
+      <g style={{ opacity: lit ? 1 : 0, transition: fade }} fill="#3a2418">
+        <polygon points={`${x + 6},${y + 18} ${x + 30},${y + 18} ${x + 20},${y + 23} ${x - 12},${y + 23}`} opacity={0.4} />
+        <polygon points={`${x + 10},${y + 19} ${x + 26},${y + 19} ${x + 18},${y + 22} ${x - 4},${y + 22}`} opacity={0.25} />
+      </g>
+      {/* Contact shadow stays on the desk */}
+      <rect x={x + 3 * u} y={y + 10 * u} width={10 * u} height={1} fill="#8a5531" opacity={0.45} />
+      {animated ?
+      <motion.g
+        animate={{ y: [0, -2, -2, 0, 0] }}
+        transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut', times: [0, 0.3, 0.5, 0.8, 1] }}>
+        
+          {figure}
+        </motion.g> :
+
+      figure
+      }
+    </g>);
+
+}
+
 export function SceneSteam({ animated }: {animated: boolean;}) {
   const wisps: {x: number;delay: number;path: [number, number][];}[] = [
   { x: 265, delay: 0, path: [[0, 0], [1, -2], [0, -4], [-1, -6], [0, -8]] },

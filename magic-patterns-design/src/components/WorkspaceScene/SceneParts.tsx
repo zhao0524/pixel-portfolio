@@ -388,23 +388,166 @@ export function SceneLampBulb() {
 export function SceneMug() {
   return (
     <g>
-      <rect x={256} y={138} width={24} height={20} fill="#f3f1ee" />
-      <rect x={274} y={138} width={6} height={20} fill="#d9d6d0" />
-      <rect x={256} y={136} width={24} height={2} fill="#e6e3de" />
-      <rect x={258} y={137} width={20} height={1} fill="#5b3a26" />
-      <rect x={280} y={142} width={6} height={2} fill="#e6e3de" />
-      <rect x={284} y={142} width={2} height={10} fill="#e6e3de" />
-      <rect x={280} y={150} width={6} height={2} fill="#e6e3de" />
-      <rect x={256} y={157} width={24} height={1} fill="#c9c5bf" />
-      <rect x={258} y={158} width={22} height={1} fill="#8a5531" opacity={0.45} />
+      <rect x={260} y={138} width={16} height={20} fill="#f3f1ee" />
+      <rect x={272} y={138} width={4} height={20} fill="#d9d6d0" />
+      <rect x={260} y={136} width={16} height={2} fill="#e6e3de" />
+      <rect x={262} y={137} width={12} height={1} fill="#5b3a26" />
+      <rect x={276} y={142} width={5} height={2} fill="#e6e3de" />
+      <rect x={279} y={142} width={2} height={10} fill="#e6e3de" />
+      <rect x={276} y={150} width={5} height={2} fill="#e6e3de" />
+      <rect x={260} y={157} width={16} height={1} fill="#c9c5bf" />
+      <rect x={262} y={158} width={16} height={1} fill="#8a5531" opacity={0.45} />
+    </g>);
+
+}
+
+/* ---------- Claude buddy (sits on the desk under the lamp) ---------- */
+
+/** Hit area for Claude's speech bubble, in scene coordinates. */
+export const CLAUDE_BUBBLE_BOUNDS = { x: 241, y: 113, width: 73, height: 25 };
+
+/** Pixel speech bubble floating to the right of Claude, tail pointing at it. */
+export function SceneClaudeBubble({ animated = true }: {animated?: boolean;}) {
+  const font = "'Pixelify Sans', ui-monospace, monospace";
+  const plum = '#6b5876';
+  const paper = '#fffaf5';
+  const x = 242;
+  const y = 114;
+  const w = 70;
+  const h = 17;
+  const bubble =
+  <g>
+      {/* Hard plum drop shadow */}
+      <g fill={plum} opacity={0.35}>
+        <rect x={x + 1} y={y + 2} width={w} height={h - 2} />
+        <rect x={x + 2} y={y + 1} width={w - 2} height={h} />
+      </g>
+      {/* Outline with notched pixel corners */}
+      <g fill={plum}>
+        <rect x={x} y={y + 1} width={w} height={h - 2} />
+        <rect x={x + 1} y={y} width={w - 2} height={h} />
+        <polygon points={`${x + 3},${y + h - 1} ${x + 10},${y + h - 1} ${x - 2},${y + h + 6}`} />
+      </g>
+      {/* Paper fill + tail */}
+      <rect x={x + 1} y={y + 1} width={w - 2} height={h - 2} fill={paper} />
+      <polygon points={`${x + 4},${y + h - 1} ${x + 8},${y + h - 1} ${x + 1},${y + h + 3}`} fill={paper} />
+      <text
+      x={x + w / 2}
+      y={y + 7}
+      textAnchor="middle"
+      fontSize={4.4}
+      fontFamily={font}
+      fill={plum}
+      fontWeight={700}>
+      
+        Click on me!
+      </text>
+      <text x={x + w / 2} y={y + 13} textAnchor="middle" fontSize={3.6} fontFamily={font} fill={plum}>
+        I can tell you more about David
+      </text>
+    </g>;
+
+  if (!animated) return bubble;
+  return (
+    <motion.g
+      initial={{ opacity: 0, y: 2 }}
+      animate={{ opacity: 1, y: [0, -1, 0] }}
+      transition={{
+        opacity: { duration: 0.4, delay: 0.6 },
+        y: { duration: 2.4, repeat: Infinity, ease: 'easeInOut' }
+      }}>
+      
+      {bubble}
+    </motion.g>);
+
+}
+
+/** Hit area for the Claude buddy, in scene coordinates. */
+export const CLAUDE_BOUNDS = { x: 204, y: 125, width: 34, height: 33 };
+
+export function SceneClaude({
+  animated = true,
+  lit = false,
+  fade = 'opacity 600ms ease-in-out'
+
+
+
+
+
+
+}: {animated?: boolean; /** Lamp is on — casts a shadow away from the lamp and adds a warm rim light. */lit?: boolean; /** CSS transition used to crossfade the lamp-lit layers. */fade?: string;}) {
+  const body = '#dc7a48';
+  const eye = '#141414';
+  const u = 2;
+  const x = 205;
+  const y = 136;
+  const figure =
+  <g>
+      {/* Conical rice hat (nón lá) */}
+      {Array.from({ length: 8 }, (_, i) => {
+      const half = 2 + i * 2;
+      return (
+        <rect
+          key={`hat-${i}`}
+          x={x + 8 * u - half}
+          y={y - 8 + i}
+          width={half * 2}
+          height={1}
+          fill={i === 7 ? '#a87d36' : i % 3 === 2 ? '#c99d4e' : '#e6c784'} />);
+
+
+    })}
+      <rect x={x + 8 * u - 1} y={y - 9} width={2} height={1} fill="#a87d36" />
+      {/* Sunlit left face of the cone */}
+      {Array.from({ length: 6 }, (_, i) =>
+    <rect key={`hat-hi-${i}`} x={x + 8 * u - 2 - i * 2} y={y - 7 + i} width={2} height={1} fill="#f3dca4" />
+    )}
+      {/* Body + arms */}
+      <rect x={x + 2 * u} y={y} width={12 * u} height={8 * u} fill={body} />
+      <rect x={x} y={y + 4 * u} width={2 * u} height={2 * u} fill={body} />
+      <rect x={x + 14 * u} y={y + 4 * u} width={2 * u} height={2 * u} fill={body} />
+      {/* Eyes */}
+      <rect x={x + 4 * u} y={y + 2 * u} width={u} height={2 * u} fill={eye} />
+      <rect x={x + 11 * u} y={y + 2 * u} width={u} height={2 * u} fill={eye} />
+      {/* Legs */}
+      {[3, 5, 10, 12].map((dx) =>
+    <rect key={dx} x={x + dx * u} y={y + 8 * u} width={u} height={2 * u} fill={body} />
+    )}
+      {/* Warm rim light on the lamp-facing side */}
+      <g fill="#ffc48a" style={{ opacity: lit ? 1 : 0, transition: fade }}>
+        <rect x={x + 14 * u - 1} y={y} width={1} height={4 * u} />
+        <rect x={x + 16 * u - 1} y={y + 4 * u} width={1} height={2 * u} />
+        <rect x={x + 2 * u} y={y} width={12 * u} height={1} />
+      </g>
+    </g>;
+
+  return (
+    <g aria-hidden="true">
+      {/* Lamp-cast shadow — falls down-left, away from the lamp head */}
+      <g style={{ opacity: lit ? 1 : 0, transition: fade }} fill="#3a2418">
+        <polygon points={`${x + 6},${y + 18} ${x + 30},${y + 18} ${x + 20},${y + 23} ${x - 12},${y + 23}`} opacity={0.4} />
+        <polygon points={`${x + 10},${y + 19} ${x + 26},${y + 19} ${x + 18},${y + 22} ${x - 4},${y + 22}`} opacity={0.25} />
+      </g>
+      {/* Contact shadow stays on the desk */}
+      <rect x={x + 3 * u} y={y + 10 * u} width={10 * u} height={1} fill="#8a5531" opacity={0.45} />
+      {animated ?
+      <motion.g
+        animate={{ y: [0, -2, -2, 0, 0] }}
+        transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut', times: [0, 0.3, 0.5, 0.8, 1] }}>
+        
+          {figure}
+        </motion.g> :
+
+      figure
+      }
     </g>);
 
 }
 
 export function SceneSteam({ animated }: {animated: boolean;}) {
   const wisps: {x: number;delay: number;path: [number, number][];}[] = [
-  { x: 263, delay: 0, path: [[0, 0], [1, -2], [0, -4], [-1, -6], [0, -8]] },
-  { x: 271, delay: 1.1, path: [[0, 0], [-1, -2], [0, -4], [1, -6], [0, -8]] }];
+  { x: 265, delay: 0, path: [[0, 0], [1, -2], [0, -4], [-1, -6], [0, -8]] },
+  { x: 270, delay: 1.1, path: [[0, 0], [-1, -2], [0, -4], [1, -6], [0, -8]] }];
 
   return (
     <g>

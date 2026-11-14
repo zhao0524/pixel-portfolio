@@ -1,8 +1,8 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useState, type CSSProperties } from "react";
-import type { SceneTheme } from "@/components/WorkspaceScene";
+import { useSyncExternalStore, useState, type CSSProperties } from "react";
+import type { ClaudeBubblePlacement, SceneTheme } from "@/components/WorkspaceScene";
 
 // The scene renders a live clock and reads prefers-reduced-motion, so it is
 // rendered client-only to avoid hydration mismatches.
@@ -43,9 +43,25 @@ const MULLIONS = [
 ];
 const FADE = "fill 600ms ease-in-out, background-color 600ms ease-in-out";
 
+// Claude's bubble extends to x≈315 of 320, so it only fits when ≥97% of the scene's width is
+// on screen, i.e. aspect ratio ≥ 0.97 × 16/9 ≈ 31/18. Otherwise it moves above the laptop.
+const WIDE_QUERY = "(min-aspect-ratio: 31/18)";
+const subscribeWide = (onChange: () => void) => {
+  const mq = window.matchMedia(WIDE_QUERY);
+  mq.addEventListener("change", onChange);
+  return () => mq.removeEventListener("change", onChange);
+};
+const useBubblePlacement = (): ClaudeBubblePlacement =>
+  useSyncExternalStore(
+    subscribeWide,
+    () => (window.matchMedia(WIDE_QUERY).matches ? "right" : "above"),
+    () => "above",
+  );
+
 export function Portfolio() {
   const [theme, setTheme] = useState<SceneTheme>("light");
   const c = FILL[theme];
+  const bubblePlacement = useBubblePlacement();
   const box: CSSProperties = {
     position: "absolute",
     left: "50%",
@@ -76,7 +92,12 @@ export function Portfolio() {
       </svg>
 
       <div style={{ ...box, top: "var(--scene-top)", height: "var(--scene-h)" }}>
-        <WorkspaceScene theme={theme} onThemeChange={setTheme} fixedOverlays />
+        <WorkspaceScene
+          theme={theme}
+          onThemeChange={setTheme}
+          claudeBubblePlacement={bubblePlacement}
+          fixedOverlays
+        />
       </div>
     </main>
   );

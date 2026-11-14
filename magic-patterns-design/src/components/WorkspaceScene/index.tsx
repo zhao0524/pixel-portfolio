@@ -4,7 +4,11 @@ import { MoonIcon, SunIcon } from 'lucide-react';
 import { BackgroundSkyline } from '../BackgroundSkyline';
 import { LaptopScreen } from '../LaptopScreen';
 import {
+  CLAUDE_BOUNDS,
+  CLAUDE_BUBBLE_BOUNDS,
   SceneBooks,
+  SceneClaude,
+  SceneClaudeBubble,
   SceneClockBody,
   SceneClockDigits,
   SceneDesk,
@@ -35,6 +39,10 @@ export type WorkspaceSceneProps = {
   /** Start zoomed into the laptop. */
   defaultZoomed?: boolean;
   onZoomChange?: (zoomed: boolean) => void;
+  /** Called when the Claude buddy (or its speech bubble) is clicked. */
+  onClaudeClick?: () => void;
+  /** Show Claude's "Click on me" speech bubble. */
+  showClaudeBubble?: boolean;
   /** Accessible label for the scene. */
   label?: string;
   className?: string;
@@ -49,13 +57,16 @@ export function WorkspaceScene({
   laptopContent,
   defaultZoomed = false,
   onZoomChange,
+  onClaudeClick,
+  showClaudeBubble = true,
   label = 'Pixel workspace overlooking the Toronto skyline',
   className = ''
 }: WorkspaceSceneProps) {
   const [internalTheme, setInternalTheme] = useState<SceneTheme>(defaultTheme);
   const [zoomed, setZoomed] = useState(defaultZoomed);
   const [screenOpen, setScreenOpen] = useState(defaultZoomed);
-  const [focus, setFocus] = useState<'lamp' | 'laptop' | null>(null);
+  const [focus, setFocus] = useState<'lamp' | 'laptop' | 'claude' | null>(null);
+  const handleClaude = () => onClaudeClick?.();
   const reduceMotion = useReducedMotion();
 
   const theme = controlledTheme ?? internalTheme;
@@ -160,6 +171,7 @@ export function WorkspaceScene({
             <SceneClockBody dark={dark} />
             <SceneMug />
             <SceneIvy />
+            <SceneClaude animated={!reduceMotion} lit={dark} fade={fade} />
 
             <g
               role="button"
@@ -172,7 +184,11 @@ export function WorkspaceScene({
               onBlur={() => setFocus(null)}
               className="cursor-pointer outline-none">
               
-              <rect x={216} y={92} width={42} height={66} fill="transparent" />
+              {/* Tight hit area: shade, pole and base only — leaves room for Claude below the shade */}
+              <rect x={216} y={92} width={22} height={16} fill="transparent" />
+              <rect x={233} y={98} width={17} height={14} fill="transparent" />
+              <rect x={243} y={110} width={8} height={42} fill="transparent" />
+              <rect x={238} y={150} width={18} height={6} fill="transparent" />
               <SceneLamp />
             </g>
 
@@ -206,14 +222,36 @@ export function WorkspaceScene({
               <polygon points="222,106 236,101 262,152 214,156" fill="#ffdf99" opacity={0.18} />
             </g>
             <SceneSteam animated={!reduceMotion} />
+            {showClaudeBubble && !zoomed && <SceneClaudeBubble animated={!reduceMotion} />}
+          </g>
+
+          {/* Claude buddy + bubble hit area */}
+          <g
+            role="button"
+            tabIndex={zoomed ? -1 : 0}
+            aria-label="Claude: click on me, I can tell you more about David"
+            onClick={handleClaude}
+            onKeyDown={activate(handleClaude)}
+            onFocus={() => setFocus('claude')}
+            onBlur={() => setFocus(null)}
+            className="cursor-pointer outline-none">
+            
+            <rect {...CLAUDE_BOUNDS} fill="transparent" />
+            {showClaudeBubble && <rect {...CLAUDE_BUBBLE_BOUNDS} fill="transparent" />}
           </g>
 
           {/* Focus rings */}
           {focus === 'laptop' &&
           <rect x={104} y={105} width={112} height={69} fill="none" stroke="#cfd8f7" strokeWidth={1.5} />
           }
+          {focus === 'claude' &&
+          <rect {...CLAUDE_BOUNDS} fill="none" stroke="#cfd8f7" strokeWidth={1.5} />
+          }
           {focus === 'lamp' &&
-          <rect x={216} y={92} width={42} height={66} fill="none" stroke="#cfd8f7" strokeWidth={1.5} />
+          <g fill="none" stroke="#cfd8f7" strokeWidth={1.5}>
+              <rect x={216} y={92} width={22} height={16} />
+              <rect x={238} y={108} width={20} height={49} />
+            </g>
           }
         </svg>
       </motion.div>
