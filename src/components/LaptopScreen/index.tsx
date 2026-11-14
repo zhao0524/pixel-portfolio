@@ -8,7 +8,10 @@ import {
   MailIcon,
   UserIcon,
   XIcon,
-  ArrowUpRightIcon } from
+  ArrowUpRightIcon,
+  GithubIcon,
+  LinkedinIcon,
+  TrophyIcon } from
 'lucide-react';
 
 export type LaptopScreenSection = 'about' | 'projects' | 'experience' | 'contact';
@@ -18,13 +21,18 @@ export interface LaptopScreenProject {
   description: string;
   tags: string[];
   href?: string;
+  /** e.g. a hackathon win */
+  award?: string;
+  /** Labelled links such as Live, GitHub or Devpost */
+  links?: {label: string;href: string;}[];
 }
 
 export interface LaptopScreenExperience {
   role: string;
   company: string;
-  period: string;
-  summary: string;
+  period?: string;
+  summary?: string;
+  bullets?: string[];
 }
 
 export interface LaptopScreenProps {
@@ -37,6 +45,9 @@ export interface LaptopScreenProps {
   projects?: LaptopScreenProject[];
   experience?: LaptopScreenExperience[];
   email?: string;
+  /** Profile URLs shown as buttons under the email in the Contact section */
+  github?: string;
+  linkedin?: string;
   /** Section shown on mount */
   defaultSection?: LaptopScreenSection;
   /** Controls the zoom-in reveal. Defaults to true. */
@@ -93,6 +104,8 @@ export function LaptopScreen({
   projects = DEFAULT_PROJECTS,
   experience = DEFAULT_EXPERIENCE,
   email = 'hello@example.com',
+  github,
+  linkedin,
   defaultSection = 'about',
   isOpen = true,
   onClose,
@@ -193,7 +206,7 @@ export function LaptopScreen({
                       {projects.map((p) =>
                   <li
                     key={p.title}
-                    className="group border-2 border-slate-800 bg-slate-900 p-4 transition-colors hover:border-emerald-400">
+                    className="group flex flex-col border-2 border-slate-800 bg-slate-900 p-4 transition-colors hover:border-emerald-400">
                     
                           <div className="flex items-start justify-between gap-2">
                             <h3 className="text-sm font-bold text-white">{p.title}</h3>
@@ -209,14 +222,37 @@ export function LaptopScreen({
                               </a>
                       }
                           </div>
+                          {p.award &&
+                    <p className="mt-1.5 flex items-center gap-1.5 text-[11px] text-amber-300">
+                              <TrophyIcon className="h-3 w-3 shrink-0" aria-hidden="true" />
+                              {p.award}
+                            </p>
+                    }
                           <p className="mt-2 text-xs leading-relaxed text-slate-400">{p.description}</p>
-                          <div className="mt-3 flex flex-wrap gap-1.5">
+                          <div className="mb-3 mt-3 flex flex-wrap gap-1.5">
                             {p.tags.map((t) =>
                       <span key={t} className="bg-slate-800 px-1.5 py-0.5 text-[10px] uppercase tracking-wider text-amber-300">
                                 {t}
                               </span>
                       )}
                           </div>
+                          {/* Pinned to the bottom (and always drawn) so the dashed rules line up across a row */}
+                          <div className="mt-auto flex flex-wrap gap-3 border-t-2 border-dashed border-slate-800 pt-2.5">
+                              {!p.links?.length && <span className="h-4" aria-hidden="true" />}
+                              {p.links?.map((l) =>
+                      <a
+                        key={l.label}
+                        href={l.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={`${p.title} ${l.label}`}
+                        className="inline-flex h-4 items-center gap-1 text-[11px] uppercase tracking-wider text-slate-300 hover:text-emerald-400 focus:outline-none focus-visible:text-emerald-400">
+                        
+                                  {l.label}
+                                  <ArrowUpRightIcon className="h-3 w-3" aria-hidden="true" />
+                                </a>
+                      )}
+                            </div>
                         </li>
                   )}
                     </ul>
@@ -224,17 +260,27 @@ export function LaptopScreen({
               }
 
                 {active === 'experience' &&
-              <div className="space-y-4">
+              <div className="mx-auto max-w-3xl space-y-4">
                     <p className="text-xs text-emerald-400">&gt; cat experience.log</p>
                     <ol className="space-y-4 border-l-2 border-slate-800 pl-4">
                       {experience.map((e) =>
                   <li key={`${e.company}-${e.role}`} className="relative">
                           <span className="absolute -left-[21px] top-1 h-2.5 w-2.5 bg-emerald-400" aria-hidden="true" />
-                          <p className="text-[11px] uppercase tracking-wider text-slate-500">{e.period}</p>
-                          <h3 className="mt-0.5 text-sm font-bold text-white">
+                          {e.period && <p className="text-[11px] uppercase tracking-wider text-slate-500">{e.period}</p>}
+                          <h3 className={`text-sm font-bold text-white ${e.period ? 'mt-0.5' : ''}`}>
                             {e.role} <span className="text-amber-300">@ {e.company}</span>
                           </h3>
-                          <p className="mt-1 text-xs leading-relaxed text-slate-400">{e.summary}</p>
+                          {e.summary && <p className="mt-1 text-xs leading-relaxed text-slate-400">{e.summary}</p>}
+                          {e.bullets && e.bullets.length > 0 &&
+                    <ul className="mt-2 space-y-1.5">
+                              {e.bullets.map((b) =>
+                      <li key={b} className="flex gap-2 text-xs leading-relaxed text-slate-400">
+                                  <span className="text-emerald-400" aria-hidden="true">-</span>
+                                  <span>{b}</span>
+                                </li>
+                      )}
+                            </ul>
+                    }
                         </li>
                   )}
                     </ol>
@@ -255,6 +301,25 @@ export function LaptopScreen({
                       <MailIcon className="h-4 w-4" />
                       {email}
                     </a>
+                    {(github || linkedin) &&
+                <div className="flex flex-wrap gap-3 pt-1">
+                        {[
+                  { label: 'GitHub', href: github, icon: GithubIcon },
+                  { label: 'LinkedIn', href: linkedin, icon: LinkedinIcon }].
+                  filter((l) => l.href).map(({ label, href, icon: Icon }) =>
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 border-2 border-slate-700 px-4 py-2 text-xs font-bold uppercase tracking-wider text-slate-100 transition-colors hover:border-emerald-400 hover:text-emerald-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300">
+                    
+                            <Icon className="h-4 w-4" aria-hidden="true" />
+                            {label}
+                          </a>
+                  )}
+                      </div>
+                }
                   </div>
               }
               </motion.section>

@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { useSyncExternalStore, useState, type CSSProperties } from "react";
 import type { ClaudeBubblePlacement, SceneTheme } from "@/components/WorkspaceScene";
+import { CONTACT, EXPERIENCE, PROJECTS } from "@/content/portfolio";
 
 // The scene renders a live clock and reads prefers-reduced-motion, so it is
 // rendered client-only to avoid hydration mismatches.
@@ -96,6 +97,7 @@ export function Portfolio() {
           theme={theme}
           onThemeChange={setTheme}
           claudeBubblePlacement={bubblePlacement}
+          laptopScreenProps={{ projects: PROJECTS, experience: EXPERIENCE, ...CONTACT }}
           fixedOverlays
         />
       </div>

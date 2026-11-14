@@ -5,6 +5,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { MoonIcon, SunIcon } from 'lucide-react';
 import { BackgroundSkyline } from '../BackgroundSkyline';
 import { LaptopScreen } from '../LaptopScreen';
+import type { LaptopScreenProps } from '../LaptopScreen';
 import {
   CLAUDE_BOUNDS,
   CLAUDE_BUBBLE_BOUNDS,
@@ -38,6 +39,8 @@ export type WorkspaceSceneProps = {
   onThemeChange?: (theme: SceneTheme) => void;
   /** Content shown on the laptop screen once zoomed in. Defaults to the LaptopScreen portfolio. */
   laptopContent?: React.ReactNode;
+  /** Content for the default LaptopScreen (projects, experience, bio...). Ignored with `laptopContent`. */
+  laptopScreenProps?: Omit<LaptopScreenProps, 'onClose' | 'className'>;
   /** Start zoomed into the laptop. */
   defaultZoomed?: boolean;
   onZoomChange?: (zoomed: boolean) => void;
@@ -64,6 +67,7 @@ export function WorkspaceScene({
   theme: controlledTheme,
   onThemeChange,
   laptopContent,
+  laptopScreenProps,
   defaultZoomed = false,
   onZoomChange,
   onClaudeClick,
@@ -308,7 +312,7 @@ export function WorkspaceScene({
                 {laptopContent}
               </div> :
 
-          <LaptopScreen name="David Zhao" onClose={() => setZoom(false)} className="min-h-0 flex-1" />
+          <LaptopScreen name="David Zhao" {...laptopScreenProps} onClose={() => setZoom(false)} className="min-h-0 flex-1" />
           }
           </motion.div>
         }
