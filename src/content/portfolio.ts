@@ -12,6 +12,7 @@ export const RESUME_URL = "/David_Zhao_swe.pdf";
 export const PROJECTS: LaptopScreenProject[] = [
   {
     title: "A.U.R.A",
+    image: "/projects/aura.jpg",
     description: "An AI-powered platform that transforms 2D floor plans into fully interactive 3D environments you can walk through in the browser. Analyzes the layout, intelligently furnishes the space based on your prompt, and generates a realistic, editable scene for planning and visualization.",
     tags: ["Three.js", "AI", "3D"],
     award: "Winner of Bear Hack",
@@ -23,6 +24,7 @@ export const PROJECTS: LaptopScreenProject[] = [
   },
   {
     title: "Spar",
+    image: "/projects/spar.jpg",
     description: "An AI-powered mock interview platform where candidates debug real codebases while thinking out loud to a live voice AI interviewer. Evaluates problem-solving, communication, and coding behavior to generate a hiring-style report.",
     tags: ["React", "Voice AI", "AI"],
     award: "Winner of Ignition Hack",
@@ -33,6 +35,7 @@ export const PROJECTS: LaptopScreenProject[] = [
   },
   {
     title: "GreenLens AI",
+    image: "/projects/greenlens-ai.jpg",
     description: "Leverages machine learning to analyze complex data and deliver real-time, actionable insights through intuitive reports.",
     tags: ["Machine Learning", "Data Analysis", "AI"],
     award: "Winner of Data Mind Challenge",
@@ -43,6 +46,7 @@ export const PROJECTS: LaptopScreenProject[] = [
   },
   {
     title: "CareSync",
+    image: "/projects/caresync.jpg",
     description: "An AI-powered care coordination platform connecting PSWs, family members, and coordinators through automated shift briefings, medication risk checks, and daily care summaries.",
     tags: ["React", "Node.js", "AI Agents"],
     award: "Winner of HackCanada",
@@ -54,6 +58,7 @@ export const PROJECTS: LaptopScreenProject[] = [
   },
   {
     title: "Spectra",
+    image: "/projects/spectra.jpg",
     description: "A real-time behavioral analytics platform acting as a security layer for AI agents on Solana. Monitors on-chain activity and detects anomalies like abnormal transaction velocity.",
     tags: ["Next.js", "TypeScript", "Solana", "Supabase"],
     award: "Winner of uOttaHack",
@@ -65,6 +70,7 @@ export const PROJECTS: LaptopScreenProject[] = [
   },
   {
     title: "FridgeChef",
+    image: "/projects/fridgechef.jpg",
     description: "An AI-powered web app that turns a photo of your fridge into personalized recipes based on your ingredients and available cooking time. Detects what you have, adapts to your schedule, and sends recipes and grocery lists to reduce food waste.",
     tags: ["React", "AI", "Computer Vision"],
     links: [
@@ -75,6 +81,7 @@ export const PROJECTS: LaptopScreenProject[] = [
   },
   {
     title: "Web Editor",
+    image: "/projects/web-editor.jpg",
     description: "A Chrome extension that lets users describe UI changes in plain English and applies them directly to any webpage in real time — no DevTools required.",
     tags: ["Chrome Extension", "JavaScript", "AI"],
     links: [
@@ -83,6 +90,7 @@ export const PROJECTS: LaptopScreenProject[] = [
   },
   {
     title: "Amazon Fullstack Clone",
+    image: "/projects/amazon-fullstack-clone.jpg",
     description: "A full-stack e-commerce app replicating core Amazon features including product listings, shopping cart, and checkout with a responsive user interface.",
     tags: ["React", "Firebase", "product-API"],
     links: [
@@ -91,6 +99,8 @@ export const PROJECTS: LaptopScreenProject[] = [
   },
   {
     title: "Motion Exercise Predictor",
+    image: "/projects/motion-exercise-predictor.png",
+    imageFit: "contain",
     description: "A machine learning app that detects movements through a wearable motion sensor and identifies exercises in real time to track workouts and monitor form.",
     tags: ["Python", "pandas", "numpy"],
     links: [
@@ -99,6 +109,7 @@ export const PROJECTS: LaptopScreenProject[] = [
   },
   {
     title: "EventFinder",
+    image: "/projects/eventfinder.jpg",
     description: "A web app that helps users discover local events in real time, connecting people to nearby concerts, festivals, and community activities based on location and interests.",
     tags: ["Python", "HTML", "Flask"],
   },

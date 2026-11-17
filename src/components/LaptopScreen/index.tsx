@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   BriefcaseIcon,
@@ -23,6 +24,10 @@ export interface LaptopScreenProject {
   description: string;
   tags: string[];
   href?: string;
+  /** Screenshot path, e.g. `/projects/spar.png` */
+  image?: string;
+  /** `cover` crops to fill the frame (default); `contain` shows the whole image */
+  imageFit?: 'cover' | 'contain';
   /** e.g. a hackathon win */
   award?: string;
   /** Labelled links such as Live, GitHub or Devpost */
@@ -242,12 +247,24 @@ export function LaptopScreen({
                 {active === 'projects' &&
               <div className="space-y-4">
                     <p className="text-xs text-emerald-400">&gt; ls ./projects</p>
-                    <ul className="grid gap-3 sm:grid-cols-2">
+                    <ul className="grid gap-3 lg:grid-cols-2">
                       {projects.map((p) =>
                   <li
                     key={p.title}
-                    className="group flex flex-col border-2 border-slate-800 bg-slate-900 p-4 transition-colors hover:border-emerald-400">
+                    className="group flex flex-col gap-4 border-2 border-slate-800 bg-slate-900 p-4 transition-colors hover:border-emerald-400 sm:flex-row">
                     
+                          {p.image &&
+                    <div className="relative aspect-video w-full shrink-0 overflow-hidden border-2 border-slate-800 bg-slate-950 sm:w-56 sm:self-center md:w-72 lg:w-52 xl:w-56">
+                              <Image
+                        src={p.image}
+                        alt={`${p.title} screenshot`}
+                        fill
+                        sizes="(min-width: 1280px) 224px, (min-width: 1024px) 208px, (min-width: 768px) 288px, (min-width: 640px) 224px, 100vw"
+                        className={`${p.imageFit === 'contain' ? 'object-contain' : 'object-cover object-top'} transition-transform duration-300 group-hover:scale-105`} />
+                      
+                            </div>
+                    }
+                          <div className="flex min-w-0 flex-1 flex-col">
                           <div className="flex items-start justify-between gap-2">
                             <h3 className="text-sm font-bold text-white">{p.title}</h3>
                             {p.href &&
@@ -263,8 +280,8 @@ export function LaptopScreen({
                       }
                           </div>
                           {p.award &&
-                    <p className="mt-1.5 flex items-center gap-1.5 text-[11px] text-amber-300">
-                              <TrophyIcon className="h-3 w-3 shrink-0" aria-hidden="true" />
+                    <p className="mt-1.5 flex items-start gap-1.5 text-[11px] text-amber-300">
+                              <TrophyIcon className="mt-px h-3 w-3 shrink-0" aria-hidden="true" />
                               {p.award}
                             </p>
                     }
@@ -293,6 +310,7 @@ export function LaptopScreen({
                                 </a>
                       )}
                             </div>
+                          </div>
                         </li>
                   )}
                     </ul>
