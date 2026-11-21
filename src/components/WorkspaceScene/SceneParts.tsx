@@ -408,40 +408,36 @@ export function SceneMug() {
 /* ---------- Claude buddy (sits on the desk under the lamp) ---------- */
 
 /**
- * Where Claude's speech bubble floats. `right` is the original design; `above` sits over the
- * laptop, left of the lamp shade, so it stays visible when the scene's right edge is cropped.
+ * Where Claude's speech bubble floats. `top-right` is a compact bubble up and to the right of the hat;
+ * `above` sits over the laptop, left of the lamp shade, so it stays visible when the scene's right edge is cropped.
  */
-export type ClaudeBubblePlacement = 'right' | 'above';
+export type ClaudeBubblePlacement = 'top-right' | 'above';
 
-const BUBBLE_W = 70;
-const BUBBLE_H = 17;
-const BUBBLE_ORIGIN: Record<ClaudeBubblePlacement, {x: number;y: number;}> = {
-  right: { x: 242, y: 114 },
-  above: { x: 144, y: 88 }
+const BUBBLES: Record<ClaudeBubblePlacement, {x: number;y: number;w: number;h: number;lines: string[];}> = {
+  'top-right': { x: 240, y: 100, w: 44, h: 22, lines: ['I can tell you', 'more about David'] },
+  above: { x: 144, y: 88, w: 70, h: 17, lines: ['I can tell you more about David'] }
 };
 
 /** Hit area for Claude's speech bubble, in scene coordinates. */
 export const CLAUDE_BUBBLE_BOUNDS: Record<ClaudeBubblePlacement, {x: number;y: number;width: number;height: number;}> = {
-  right: { x: 241, y: 113, width: 73, height: 25 },
+  'top-right': { x: 239, y: 99, width: 47, height: 25 },
   above: { x: 143, y: 87, width: 73, height: 21 }
 };
 
 /** Pixel speech bubble floating next to Claude, tail pointing at it. */
 export function SceneClaudeBubble({
   animated = true,
-  placement = 'right'
+  placement = 'top-right'
 }: {animated?: boolean;placement?: ClaudeBubblePlacement;}) {
   const font = "'Pixelify Sans', ui-monospace, monospace";
   const plum = '#6b5876';
   const paper = '#fffaf5';
-  const { x, y } = BUBBLE_ORIGIN[placement];
-  const w = BUBBLE_W;
-  const h = BUBBLE_H;
+  const { x, y, w, h, lines } = BUBBLES[placement];
   const b = y + h - 1;
-  // Tail outline and paper fill: from the bubble's bottom edge towards Claude.
+  // Tail outline and paper fill: from the bubble's bottom edge down towards Claude's hat.
   const tail =
-  placement === 'right' ?
-  { outline: `${x + 3},${b} ${x + 10},${b} ${x - 2},${y + h + 6}`, fill: `${x + 4},${b} ${x + 8},${b} ${x + 1},${y + h + 3}` } :
+  placement === 'top-right' ?
+  { outline: `${x + 3},${b} ${x + 9},${b} ${x - 6},${y + h + 7}`, fill: `${x + 4},${b} ${x + 7},${b} ${x - 3},${y + h + 4}` } :
   { outline: `${x + w - 12},${b} ${x + w - 5},${b} ${x + w + 5},${y + h + 15}`, fill: `${x + w - 11},${b} ${x + w - 7},${b} ${x + w + 2},${y + h + 11}` };
   const bubble =
   <g>
@@ -470,9 +466,11 @@ export function SceneClaudeBubble({
       
         Click on me!
       </text>
-      <text x={x + w / 2} y={y + 13} textAnchor="middle" fontSize={3.6} fontFamily={font} fill={plum}>
-        I can tell you more about David
-      </text>
+      {lines.map((line, i) =>
+    <text key={line} x={x + w / 2} y={y + 13 + i * 5} textAnchor="middle" fontSize={3.6} fontFamily={font} fill={plum}>
+          {line}
+        </text>
+    )}
     </g>;
 
   if (!animated) return bubble;

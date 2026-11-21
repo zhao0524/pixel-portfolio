@@ -45,9 +45,9 @@ const MULLIONS = [
 ];
 const FADE = "fill 600ms ease-in-out, background-color 600ms ease-in-out";
 
-// Claude's bubble extends to x≈315 of 320, so it only fits when ≥97% of the scene's width is
-// on screen, i.e. aspect ratio ≥ 0.97 × 16/9 ≈ 31/18. Otherwise it moves above the laptop.
-const WIDE_QUERY = "(min-aspect-ratio: 31/18)";
+// Claude's top-right bubble extends to x≈290 of 320, so it only fits when ≥81% of the scene's width is
+// on screen, i.e. aspect ratio ≥ 0.8125 × 16/9 ≈ 13/9. Otherwise it moves above the laptop.
+const WIDE_QUERY = "(min-aspect-ratio: 13/9)";
 const subscribeWide = (onChange: () => void) => {
   const mq = window.matchMedia(WIDE_QUERY);
   mq.addEventListener("change", onChange);
@@ -56,7 +56,7 @@ const subscribeWide = (onChange: () => void) => {
 const useBubblePlacement = (): ClaudeBubblePlacement =>
   useSyncExternalStore(
     subscribeWide,
-    () => (window.matchMedia(WIDE_QUERY).matches ? "right" : "above"),
+    () => (window.matchMedia(WIDE_QUERY).matches ? "top-right" : "above"),
     () => "above",
   );
 
@@ -65,6 +65,7 @@ export function Portfolio() {
   const c = FILL[theme];
   const bubblePlacement = useBubblePlacement();
   const [chatOpen, setChatOpen] = useState(false);
+  const [claude, setClaude] = useState<Element | null>(null);
   const closeChat = useCallback(() => setChatOpen(false), []);
   const box: CSSProperties = {
     position: "absolute",
@@ -100,7 +101,10 @@ export function Portfolio() {
           theme={theme}
           onThemeChange={setTheme}
           claudeBubblePlacement={bubblePlacement}
-          onClaudeClick={() => setChatOpen(true)}
+          onClaudeClick={(el) => {
+            setClaude(el);
+            setChatOpen(true);
+          }}
           showClaudeBubble={!chatOpen}
           laptopScreenProps={{
             ...ABOUT,
@@ -113,7 +117,7 @@ export function Portfolio() {
         />
       </div>
 
-      <ClaudeChat open={chatOpen} onClose={closeChat} fixed />
+      <ClaudeChat open={chatOpen} onClose={closeChat} anchor={claude} fixed />
     </main>
   );
 }

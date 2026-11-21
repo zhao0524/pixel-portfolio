@@ -44,8 +44,11 @@ export type WorkspaceSceneProps = {
   /** Start zoomed into the laptop. */
   defaultZoomed?: boolean;
   onZoomChange?: (zoomed: boolean) => void;
-  /** Called when the Claude buddy (or its speech bubble) is clicked. Defaults to opening the laptop. */
-  onClaudeClick?: () => void;
+  /**
+   * Called with the Claude buddy's element (to anchor UI to it) when Claude or its speech bubble is clicked.
+   * Defaults to opening the laptop.
+   */
+  onClaudeClick?: (claude: Element) => void;
   /** Show Claude's "Click on me" speech bubble. */
   showClaudeBubble?: boolean;
   /** Where the speech bubble floats; use `above` when the scene's right edge may be cropped. */
@@ -72,7 +75,7 @@ export function WorkspaceScene({
   onZoomChange,
   onClaudeClick,
   showClaudeBubble = true,
-  claudeBubblePlacement = 'right',
+  claudeBubblePlacement = 'top-right',
   label = 'Pixel workspace overlooking the Toronto skyline',
   fixedOverlays = false,
   className = ''
@@ -107,7 +110,10 @@ export function WorkspaceScene({
     },
     [onZoomChange]
   );
-  const handleClaude = () => onClaudeClick ? onClaudeClick() : !zoomed && setZoom(true);
+  const handleClaude = (e: React.SyntheticEvent<Element>) => {
+    if (!onClaudeClick) return !zoomed && setZoom(true);
+    onClaudeClick(e.currentTarget.querySelector('rect') ?? e.currentTarget);
+  };
 
   useEffect(() => {
     if (!zoomed) return;
@@ -118,10 +124,10 @@ export function WorkspaceScene({
     return () => window.removeEventListener('keydown', onKey);
   }, [zoomed, setZoom]);
 
-  const activate = (fn: () => void) => (e: React.KeyboardEvent) => {
+  const activate = (fn: (e: React.KeyboardEvent) => void) => (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      fn();
+      fn(e);
     }
   };
 

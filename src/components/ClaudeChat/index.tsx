@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 
 type ChatMessage = {role: 'user' | 'assistant';text: string;};
@@ -12,6 +12,42 @@ export interface ClaudeChatProps {
   endpoint?: string;
   /** Pin to the viewport instead of the nearest positioned ancestor */
   fixed?: boolean;
+  /** Element to pop out of like a speech bubble (e.g. the desk buddy). Without room above it, the chat docks to the bottom. */
+  anchor?: Element | null;
+}
+
+type BubblePosition = {left: number;bottom: number;width: number;maxHeight: number;tail: number;};
+
+/** Tail size: it slants down-left from the bubble's bottom edge to its tip */
+const TAIL_W = 30;
+const TAIL_H = 18;
+/** Where along the anchor's width the tail points (its top-right shoulder) */
+const ANCHOR_X = 0.8;
+/** Space between the tail tip and the top of the anchor */
+const TAIL_GAP = 4;
+/** Smallest height worth showing as a bubble; below this the chat docks to the bottom instead */
+const MIN_BUBBLE_HEIGHT = 300;
+const EDGE = 12;
+const MAX_WIDTH = 420;
+const MIN_WIDTH = 320;
+
+/** Places the bubble up and to the right of the anchor, with the tail tip just above its top-right. */
+function placeBubble(anchor: Element): BubblePosition | null {
+  const r = anchor.getBoundingClientRect();
+  const tipX = r.left + r.width * ANCHOR_X;
+  const bottomEdge = r.top - TAIL_GAP - TAIL_H;
+  if (bottomEdge - EDGE < MIN_BUBBLE_HEIGHT) return null;
+  // Narrow (down to MIN_WIDTH) to fit the space right of the anchor before sliding left.
+  const spaceRight = window.innerWidth - EDGE - (tipX - 6);
+  const width = Math.min(MAX_WIDTH, Math.max(MIN_WIDTH, spaceRight), window.innerWidth - EDGE * 2);
+  const left = Math.min(Math.max(tipX - 6, EDGE), window.innerWidth - width - EDGE);
+  return {
+    left,
+    bottom: window.innerHeight - bottomEdge,
+    width,
+    maxHeight: Math.min(600, bottomEdge - EDGE),
+    tail: Math.min(Math.max(tipX - left, 0), width - TAIL_W - 16)
+  };
 }
 
 /** Claude's coral accent */
@@ -59,12 +95,22 @@ function Thinking() {
 
 }
 
-export function ClaudeChat({ open, onClose, endpoint = '/api/chat', fixed = false }: ClaudeChatProps) {
+export function ClaudeChat({ open, onClose, endpoint = '/api/chat', fixed = false, anchor }: ClaudeChatProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [pending, setPending] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
+  const [bubble, setBubble] = useState<BubblePosition | null>(null);
+
+  useLayoutEffect(() => {
+    if (!open || !anchor) return;
+    const place = () => setBubble(placeBubble(anchor));
+    place();
+    window.addEventListener('resize', place);
+    return () => window.removeEventListener('resize', place);
+  }, [open, anchor]);
+  const pos = open && anchor ? bubble : null;
 
   useEffect(() => {
     if (!open) return;
@@ -107,12 +153,17 @@ export function ClaudeChat({ open, onClose, endpoint = '/api/chat', fixed = fals
       <motion.div
         role="dialog"
         aria-label="Chat with Claude"
-        initial={{ opacity: 0, y: 16, scale: 0.97 }}
+        initial={{ opacity: 0, y: 12, scale: 0.9 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: 16, scale: 0.97 }}
+        exit={{ opacity: 0, y: 12, scale: 0.9 }}
         transition={{ duration: 0.2, ease: 'easeOut' }}
-        className={`${fixed ? 'fixed' : 'absolute'} inset-x-3 bottom-3 z-40 flex max-h-[min(600px,calc(100dvh-1.5rem))] flex-col overflow-hidden rounded-lg border border-neutral-700 bg-[#141413] font-mono text-[12px] leading-relaxed text-neutral-200 shadow-2xl shadow-black/60 sm:inset-x-auto sm:bottom-4 sm:right-4 sm:w-[420px]`}>
+        style={pos ? { left: pos.left, bottom: pos.bottom, width: pos.width, transformOrigin: `${pos.tail}px calc(100% + ${TAIL_H}px)` } : undefined}
+        className={`${fixed || pos ? 'fixed' : 'absolute'} z-40 ${pos ? '' : 'inset-x-3 bottom-3 sm:inset-x-auto sm:bottom-4 sm:right-4 sm:w-[420px]'}`}>
         
+        <div
+          style={pos ? { maxHeight: pos.maxHeight } : undefined}
+          className="flex max-h-[min(600px,calc(100dvh-1.5rem))] flex-col overflow-hidden rounded-2xl border border-neutral-700 bg-[#141413] font-mono text-[12px] leading-relaxed text-neutral-200 shadow-2xl shadow-black/60">
+          
           {/* Terminal window chrome */}
           <div className="relative flex items-center border-b border-neutral-800 bg-[#1f1e1d] px-3 py-2">
             <div className="flex gap-1.5">
@@ -194,6 +245,22 @@ export function ClaudeChat({ open, onClose, endpoint = '/api/chat', fixed = fals
               <span>esc to close</span>
             </div>
           </form>
+        </div>
+          {/* Speech-bubble tail: slants down-left from the bottom edge to the anchor */}
+          {pos &&
+        <svg
+          aria-hidden="true"
+          data-bubble-tail
+          width={TAIL_W}
+          height={TAIL_H}
+          viewBox={`0 0 ${TAIL_W} ${TAIL_H}`}
+          className="absolute top-[calc(100%-1px)] overflow-visible"
+          style={{ left: pos.tail }}>
+          
+            <polygon points={`14,0 ${TAIL_W},0 0,${TAIL_H}`} fill="#141413" />
+            <polyline points={`14,0 0,${TAIL_H} ${TAIL_W},0`} fill="none" stroke="#404040" strokeWidth={1} strokeLinejoin="round" />
+          </svg>
+        }
         </motion.div>
       }
     </AnimatePresence>);
