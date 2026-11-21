@@ -351,7 +351,8 @@ export function LaptopScreen({
               }
 
                 {active === 'contact' &&
-              <div className="space-y-4">
+              <div className="flex justify-center">
+                <div className="w-fit max-w-full space-y-4">
                     <p className="text-xs text-emerald-400">&gt; ./contact.sh</p>
                     <h2 className="text-xl font-bold text-white">Let&apos;s talk.</h2>
                     <p className="max-w-prose text-sm text-slate-300">
@@ -384,6 +385,7 @@ export function LaptopScreen({
                       </div>
                 }
                   </div>
+                </div>
               }
               </motion.section>
             </AnimatePresence>

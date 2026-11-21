@@ -106,6 +106,7 @@ export function Portfolio() {
             setChatOpen(true);
           }}
           showClaudeBubble={!chatOpen}
+          onZoomChange={(zoomed) => zoomed && setChatOpen(false)}
           laptopScreenProps={{
             ...ABOUT,
             projects: PROJECTS,
