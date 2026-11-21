@@ -86,8 +86,8 @@ const SECTIONS: {id: LaptopScreenSection;label: string;icon: typeof UserIcon;}[]
 
 export function LaptopScreen({
   name = 'David',
-  role = 'Developer & Designer',
-  bio = 'Hi! This is a placeholder bio. Tell visitors who you are, what you build, and what you care about.',
+  role = 'Software Engineer',
+  bio = 'Hi, I’m David! I’m a curious builder who enjoys turning ideas into real projects, learning new things, and working with people who care about what they create. Outside of tech, you’ll usually find me playing basketball or at the gym.',
   projects = DEFAULT_PROJECTS,
   experience = DEFAULT_EXPERIENCE,
   email = 'hello@example.com',

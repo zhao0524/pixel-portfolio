@@ -343,7 +343,7 @@ import { Laptop } from 'components/Laptop'
 `,
   "LaptopScreen": `# LaptopScreen
 
-Nested portfolio content layer rendered inside the pixel-room laptop screen when the user zooms in. Retro terminal look (dark slate screen, monospace, emerald/amber accents, hard pixel shadows) with tabbed About / Projects / Experience / Contact sections. Ships with placeholder content.
+Nested portfolio content layer rendered inside the pixel-room laptop screen when the user zooms in. Retro terminal look (dark slate screen, monospace, emerald/amber accents, hard pixel shadows) with tabbed About / Projects / Experience / Contact sections. Ships with David's role and bio, plus placeholder projects, experience and contact details.
 
 ## Props
 
@@ -351,7 +351,7 @@ Nested portfolio content layer rendered inside the pixel-room laptop screen when
 | --- | --- | --- | --- |
 | \`name\` | \`string\` | \`'David'\` | Title bar path + About heading |
 | \`role\` | \`string\` | \`'Software Engineer'\` | Tagline |
-| \`bio\` | \`string\` | placeholder | About paragraph |
+| \`bio\` | \`string\` | short intro about David | About paragraph |
 | \`projects\` | \`LaptopScreenProject[]\` | \`DEFAULT_PROJECTS\` | \`{ title, description, tags, href? }\` |
 | \`experience\` | \`LaptopScreenExperience[]\` | \`DEFAULT_EXPERIENCE\` | \`{ role, company, period, summary }\` |
 | \`email\` | \`string\` | \`'hello@example.com'\` | Contact mailto button |
