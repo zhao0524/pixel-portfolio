@@ -1,9 +1,10 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useSyncExternalStore, useState, type CSSProperties } from "react";
+import { useCallback, useSyncExternalStore, useState, type CSSProperties } from "react";
+import { ClaudeChat } from "@/components/ClaudeChat";
 import type { ClaudeBubblePlacement, SceneTheme } from "@/components/WorkspaceScene";
-import { CONTACT, EXPERIENCE, PROJECTS, RESUME_URL } from "@/content/portfolio";
+import { ABOUT, CONTACT, EXPERIENCE, PROJECTS, RESUME_URL } from "@/content/portfolio";
 
 // The scene renders a live clock and reads prefers-reduced-motion, so it is
 // rendered client-only to avoid hydration mismatches.
@@ -63,6 +64,8 @@ export function Portfolio() {
   const [theme, setTheme] = useState<SceneTheme>("light");
   const c = FILL[theme];
   const bubblePlacement = useBubblePlacement();
+  const [chatOpen, setChatOpen] = useState(false);
+  const closeChat = useCallback(() => setChatOpen(false), []);
   const box: CSSProperties = {
     position: "absolute",
     left: "50%",
@@ -97,10 +100,20 @@ export function Portfolio() {
           theme={theme}
           onThemeChange={setTheme}
           claudeBubblePlacement={bubblePlacement}
-          laptopScreenProps={{ projects: PROJECTS, experience: EXPERIENCE, ...CONTACT, resumeUrl: RESUME_URL }}
+          onClaudeClick={() => setChatOpen(true)}
+          showClaudeBubble={!chatOpen}
+          laptopScreenProps={{
+            ...ABOUT,
+            projects: PROJECTS,
+            experience: EXPERIENCE,
+            ...CONTACT,
+            resumeUrl: RESUME_URL,
+          }}
           fixedOverlays
         />
       </div>
+
+      <ClaudeChat open={chatOpen} onClose={closeChat} fixed />
     </main>
   );
 }

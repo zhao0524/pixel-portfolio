@@ -1,5 +1,11 @@
 import type { LaptopScreenExperience, LaptopScreenProject } from '@/components/LaptopScreen';
 
+export const ABOUT = {
+  name: "David Zhao",
+  role: "Software Engineer",
+  bio: "Hi, I’m David! I’m a curious builder who enjoys turning ideas into real projects, learning new things, and working with people who care about what they create. Outside of tech, you’ll usually find me playing basketball or at the gym.",
+};
+
 export const CONTACT = {
   email: "davidzhao0524@gmail.com",
   github: "https://github.com/zhao0524",
