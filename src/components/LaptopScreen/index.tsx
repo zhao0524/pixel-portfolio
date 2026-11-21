@@ -8,6 +8,7 @@ import {
   DownloadIcon,
   FileTextIcon,
   FolderIcon,
+  ImageIcon,
   MailIcon,
   UserIcon,
   XIcon,
@@ -253,17 +254,21 @@ export function LaptopScreen({
                     key={p.title}
                     className="group flex flex-col gap-4 border-2 border-slate-800 bg-slate-900 p-4 transition-colors hover:border-emerald-400 sm:flex-row">
                     
-                          {p.image &&
-                    <div className="relative aspect-video w-full shrink-0 overflow-hidden border-2 border-slate-800 bg-slate-950 sm:w-56 sm:self-center md:w-72 lg:w-52 xl:w-56">
-                              <Image
+                          <div className="relative aspect-video w-full shrink-0 overflow-hidden border-2 border-slate-800 bg-slate-950 sm:w-56 sm:self-center md:w-72 lg:w-52 xl:w-56">
+                              {p.image ?
+                      <Image
                         src={p.image}
                         alt={`${p.title} screenshot`}
                         fill
                         sizes="(min-width: 1280px) 224px, (min-width: 1024px) 208px, (min-width: 768px) 288px, (min-width: 640px) 224px, 100vw"
-                        className={`${p.imageFit === 'contain' ? 'object-contain' : 'object-cover object-top'} transition-transform duration-300 group-hover:scale-105`} />
-                      
+                        className={`${p.imageFit === 'contain' ? 'object-contain' : 'object-cover object-top'} transition-transform duration-300 group-hover:scale-105`} /> :
+
+                      <div className="flex h-full flex-col items-center justify-center gap-1.5 border-2 border-dashed border-slate-700 text-slate-500">
+                                  <ImageIcon className="h-5 w-5" aria-hidden="true" />
+                                  <span className="text-[10px] uppercase tracking-wider">Screenshot coming soon</span>
+                                </div>
+                      }
                             </div>
-                    }
                           <div className="flex min-w-0 flex-1 flex-col">
                           <div className="flex items-start justify-between gap-2">
                             <h3 className="text-sm font-bold text-white">{p.title}</h3>

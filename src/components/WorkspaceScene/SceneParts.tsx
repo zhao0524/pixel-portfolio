@@ -374,15 +374,17 @@ export function SceneLamp() {
       <rect x={240} y={151} width={14} height={1} fill={hi} />
       <rect x={246} y={112} width={2} height={40} fill={c} />
       <rect x={245} y={110} width={4} height={3} fill={hi} />
-      <PixelLine from={[246, 111]} to={[233, 100]} fill={c} thickness={2} />
-      <polygon points="218,98 232,94 236,101 222,106" fill={c} />
-      <polygon points="221,104 235,99 236,101 222,106" fill="#56545e" />
+      <PixelLine from={[246, 111]} to={[231, 96]} fill={c} thickness={2} />
+      {/* Shade hangs level, opening straight down */}
+      <rect x={225} y={95} width={5} height={4} fill={hi} />
+      <polygon points="221,98 233,98 237,105 217,105" fill={c} />
+      <rect x={217} y={105} width={20} height={1} fill="#56545e" />
     </g>);
 
 }
 
 export function SceneLampBulb() {
-  return <polygon points="221,104 235,99 236,101 222,106" fill="#ffe7a8" />;
+  return <polygon points="219,105 235,105 233,107 221,107" fill="#ffe7a8" />;
 }
 
 /* ---------- Right decor ---------- */
@@ -549,10 +551,11 @@ export function SceneClaude({
 
   return (
     <g aria-hidden="true">
-      {/* Lamp-cast shadow — falls down-left, away from the lamp head */}
-      <g style={{ opacity: lit ? 1 : 0, transition: fade }} fill="#3a2418">
-        <polygon points={`${x + 6},${y + 18} ${x + 30},${y + 18} ${x + 20},${y + 23} ${x - 12},${y + 23}`} opacity={0.4} />
-        <polygon points={`${x + 10},${y + 19} ${x + 26},${y + 19} ${x + 18},${y + 22} ${x - 4},${y + 22}`} opacity={0.25} />
+      {/* Lamp-lit shadow — a pixel oval centred under the feet */}
+      <g style={{ opacity: lit ? 1 : 0, transition: fade }} fill="#3a2418" fillOpacity={0.35}>
+        <rect x={x + 7} y={y + 10 * u - 1} width={18} height={1} />
+        <rect x={x + 3} y={y + 10 * u} width={26} height={2} />
+        <rect x={x + 7} y={y + 10 * u + 2} width={18} height={1} />
       </g>
       {/* Contact shadow stays on the desk */}
       <rect x={x + 3 * u} y={y + 10 * u} width={10 * u} height={1} fill="#8a5531" opacity={0.45} />

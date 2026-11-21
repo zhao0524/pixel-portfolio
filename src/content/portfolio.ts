@@ -11,6 +11,41 @@ export const RESUME_URL = "/David_Zhao_swe.pdf";
 
 export const PROJECTS: LaptopScreenProject[] = [
   {
+    title: "Rivet",
+    image: "/projects/rivet.jpg",
+    description: "An AI-assisted hardware builder that turns a photo or prompt into an interactive 3D model built from separate parts, with exploded views and part selection. For its supported rover it produces a validated design from real catalogued parts, with a bill of materials, wiring, assembly steps and starter firmware.",
+    tags: ["Next.js", "FastAPI", "Three.js", "Python"],
+    award: "Winner of SOON Hacks",
+    links: [
+      { label: "Live", href: "https://www.userivet.site/" },
+      { label: "GitHub", href: "https://github.com/zhao0524/Rivet" },
+      { label: "Devpost", href: "https://devpost.com/software/rivet-lze4d5" },
+    ],
+  },
+  {
+    title: "Steady",
+    image: "/projects/steady.jpg",
+    description: "Turns a laptop webcam into a surgical training simulator. Real-time hand tracking drives virtual instruments in a 3D operating room, an expert ghost demonstrates each skill, and every attempt is scored, coached by voice and replayed against the reference motion.",
+    tags: ["Next.js", "Three.js", "MediaPipe", "Python"],
+    award: "Winner of Hack the Valley",
+    links: [
+      { label: "Live", href: "https://steady-snowy-seven.vercel.app/" },
+      { label: "GitHub", href: "https://github.com/zhao0524/Steady" },
+      { label: "Devpost", href: "https://devpost.com/software/aura-cjim1q" },
+    ],
+  },
+  {
+    title: "SCOUT",
+    image: "/projects/scout.jpg",
+    description: "Researches the history of a hackathon idea before you build it. A pipeline of research agents uncovers previous attempts, current competitors and repeated failure patterns, tells the story as a page-flipping notebook, then turns the remaining gap into a build plan.",
+    tags: ["React", "Node.js", "Gemini", "AI Agents"],
+    award: "Winner of HuskyHack",
+    links: [
+      { label: "GitHub", href: "https://github.com/RohanGottipati/Scout" },
+      { label: "Devpost", href: "https://devpost.com/software/1-hlgbas" },
+    ],
+  },
+  {
     title: "A.U.R.A",
     image: "/projects/aura.jpg",
     description: "An AI-powered platform that transforms 2D floor plans into fully interactive 3D environments you can walk through in the browser. Analyzes the layout, intelligently furnishes the space based on your prompt, and generates a realistic, editable scene for planning and visualization.",
@@ -18,7 +53,7 @@ export const PROJECTS: LaptopScreenProject[] = [
     award: "Winner of Bear Hack",
     links: [
       { label: "Live", href: "https://aura-bay-nu.vercel.app/" },
-      { label: "GitHub", href: "https://github.com/zhao0524/FridgeChef" },
+      { label: "GitHub", href: "https://github.com/zhao0524/AURA" },
       { label: "Devpost", href: "https://devpost.com/software/a-u-r-a-architectural-understanding-rendering-agent" },
     ],
   },

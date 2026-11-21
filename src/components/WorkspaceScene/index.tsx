@@ -89,6 +89,8 @@ export function WorkspaceScene({
   const uid = useId().replace(/:/g, '');
   const roomId = `room-${uid}`;
   const tintId = `night-tint-${uid}`;
+  const beamFadeId = `beam-fade-${uid}`;
+  const beamBlurId = `beam-blur-${uid}`;
   const fade = reduceMotion ? 'none' : 'opacity 600ms ease-in-out';
 
   const toggleTheme = useCallback(() => {
@@ -180,6 +182,15 @@ export function WorkspaceScene({
                 values="0.5 0 0 0 0.05  0 0.45 0 0 0.03  0 0 0.6 0 0.1  0 0 0 1 0" />
               
             </filter>
+            {/* Lamp beam: strongest at the shade, fading out towards the desk */}
+            <linearGradient id={beamFadeId} gradientUnits="userSpaceOnUse" x1={0} y1={106} x2={0} y2={160}>
+              <stop offset="0" stopColor="#ffdf99" stopOpacity={0.36} />
+              <stop offset="0.6" stopColor="#ffdf99" stopOpacity={0.2} />
+              <stop offset="1" stopColor="#ffdf99" stopOpacity={0} />
+            </linearGradient>
+            <filter id={beamBlurId} x="-30%" y="-10%" width="160%" height="120%">
+              <feGaussianBlur stdDeviation={1.6} />
+            </filter>
           </defs>
 
           <g id={roomId}>
@@ -206,8 +217,8 @@ export function WorkspaceScene({
               className="cursor-pointer outline-none [-webkit-tap-highlight-color:transparent]">
               
               {/* Tight hit area: shade, pole and base only — leaves room for Claude below the shade */}
-              <rect x={216} y={92} width={22} height={16} fill="transparent" />
-              <rect x={233} y={98} width={17} height={14} fill="transparent" />
+              <rect x={216} y={94} width={22} height={14} fill="transparent" />
+              <rect x={229} y={94} width={20} height={18} fill="transparent" />
               <rect x={243} y={110} width={8} height={42} fill="transparent" />
               <rect x={238} y={150} width={18} height={6} fill="transparent" />
               <SceneLamp />
@@ -240,7 +251,7 @@ export function WorkspaceScene({
             <SceneClockDigits dark={dark} />
             <g style={{ opacity: dark ? 1 : 0, transition: fade }}>
               <SceneLampBulb />
-              <polygon points="222,106 236,101 262,152 214,156" fill="#ffdf99" opacity={0.18} />
+              <polygon points="219,106 235,106 251,160 203,160" fill={`url(#${beamFadeId})`} filter={`url(#${beamBlurId})`} shapeRendering="geometricPrecision" />
             </g>
             <SceneSteam animated={!reduceMotion} />
             {showClaudeBubble && !zoomed && <SceneClaudeBubble animated={!reduceMotion} placement={claudeBubblePlacement} />}
@@ -270,8 +281,8 @@ export function WorkspaceScene({
           }
           {focus === 'lamp' &&
           <g fill="none" stroke="#cfd8f7" strokeWidth={1.5}>
-              <rect x={216} y={92} width={22} height={16} />
-              <rect x={238} y={108} width={20} height={49} />
+              <rect x={215} y={93} width={36} height={16} />
+              <rect x={238} y={109} width={20} height={48} />
             </g>
           }
         </svg>
