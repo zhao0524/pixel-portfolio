@@ -3,7 +3,8 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 
-type ChatMessage = {role: 'user' | 'assistant';text: string;};
+/** `sig` is the server's signature on Claude's replies; unsigned replies aren't trusted as history. */
+type ChatMessage = {role: 'user' | 'assistant';text: string;sig?: string;};
 
 export interface ClaudeChatProps {
   open: boolean;
@@ -137,8 +138,8 @@ export function ClaudeChat({ open, onClose, endpoint = '/api/chat', fixed = fals
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages: next })
       });
-      const data = (await res.json()) as {text?: string;};
-      setMessages((m) => [...m, { role: 'assistant', text: data.text || 'Hmm, I lost my train of thought. Try again?' }]);
+      const data = (await res.json()) as {text?: string;sig?: string;};
+      setMessages((m) => [...m, { role: 'assistant', text: data.text || 'Hmm, I lost my train of thought. Try again?', sig: data.sig }]);
     } catch {
       setMessages((m) => [...m, { role: 'assistant', text: "I can't reach my brain right now. Check your connection and try again." }]);
     } finally {

@@ -1,5 +1,3 @@
-hello
-
 # Pixel Portfolio
 
 An interactive pixel-art portfolio: a cozy desk in front of a floor-to-ceiling window overlooking the Toronto skyline
@@ -42,9 +40,19 @@ npm run lint
 | Variable | Required | Description |
 | --- | --- | --- |
 | `GEMINI_API_KEY` | For the chat | Google Gemini API key ([create one](https://aistudio.google.com/apikey)). Server-only; never exposed to the browser. Without it the chat replies that it's offline. |
-| `GEMINI_MODEL` | No | Gemini 3.x model to use. Defaults to `gemini-3.5-flash`; busy or slow requests retry on `gemini-3.5-flash-lite`. |
+| `GEMINI_MODEL` | No | Gemini 3.x model to use. Defaults to `gemini-3.5-flash`. |
+| `GEMINI_FALLBACK_MODEL` | No | Model retried when the main one is busy, slow or retired. Defaults to `gemini-3.5-flash-lite`. |
+| `CHAT_SIGNING_SECRET` | No | Secret used to sign the buddy's replies so visitors can't fake chat history. Defaults to deriving from `GEMINI_API_KEY`; set your own random value to keep them separate. |
 
 Put real values in `.env.local` (git-ignored). Set the same variables in your hosting provider when deploying.
+
+### Security
+
+- The chat route caps request size (16 KB), message length and history, times out slow model calls, and rate-limits
+  each IP (10 requests per minute, 100 per day). The limiter is in memory, so on serverless hosting each instance
+  counts separately: also set a quota or budget alert on the Gemini key.
+- Security headers (Content-Security-Policy, X-Frame-Options, X-Content-Type-Options, Referrer-Policy,
+  Permissions-Policy) are set in `next.config.ts`. Add any new external origin (fonts, images, APIs) to the CSP there.
 
 ## Project structure
 

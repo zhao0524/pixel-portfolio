@@ -103,7 +103,7 @@ export function Portfolio() {
           claudeBubblePlacement={bubblePlacement}
           onClaudeClick={(el) => {
             setClaude(el);
-            setChatOpen(true);
+            setChatOpen((open) => !open);
           }}
           showClaudeBubble={!chatOpen}
           onZoomChange={(zoomed) => zoomed && setChatOpen(false)}

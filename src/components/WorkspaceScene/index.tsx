@@ -211,37 +211,8 @@ export function WorkspaceScene({
             <SceneIvy />
             <SceneClaude animated={!reduceMotion} lit={dark} fade={fade} />
 
-            <g
-              role="button"
-              tabIndex={0}
-              aria-label={dark ? 'Turn the lamp off (day)' : 'Turn the lamp on (night)'}
-              aria-pressed={dark}
-              onClick={toggleTheme}
-              onKeyDown={activate(toggleTheme)}
-              onFocus={onKeyboardFocus('lamp')}
-              onBlur={() => setFocus(null)}
-              className="cursor-pointer outline-none [-webkit-tap-highlight-color:transparent]">
-              
-              {/* Tight hit area: shade, pole and base only — leaves room for Claude below the shade */}
-              <rect x={216} y={94} width={22} height={14} fill="transparent" />
-              <rect x={229} y={94} width={20} height={18} fill="transparent" />
-              <rect x={243} y={110} width={8} height={42} fill="transparent" />
-              <rect x={238} y={150} width={18} height={6} fill="transparent" />
-              <SceneLamp />
-            </g>
-
-            <g
-              role="button"
-              tabIndex={zoomed ? -1 : 0}
-              aria-label="Open laptop"
-              onClick={() => !zoomed && setZoom(true)}
-              onKeyDown={activate(() => !zoomed && setZoom(true))}
-              onFocus={onKeyboardFocus('laptop')}
-              onBlur={() => setFocus(null)}
-              className="cursor-pointer outline-none [-webkit-tap-highlight-color:transparent]">
-              
-              <SceneLaptopBody />
-            </g>
+            <SceneLamp />
+            <SceneLaptopBody />
           </g>
 
           {/* Night tint — static filter, crossfaded via opacity only */}
@@ -261,6 +232,42 @@ export function WorkspaceScene({
             </g>
             <SceneSteam animated={!reduceMotion} />
             {showClaudeBubble && !zoomed && <SceneClaudeBubble animated={!reduceMotion} placement={claudeBubblePlacement} />}
+          </g>
+
+          {/*
+            Interactive hit areas live outside the room group: the night tint <use> clones the room,
+            and focusable elements inside it would be tabbed to twice.
+          */}
+          <g
+            role="button"
+            tabIndex={0}
+            aria-label={dark ? 'Turn the lamp off (day)' : 'Turn the lamp on (night)'}
+            aria-pressed={dark}
+            onClick={toggleTheme}
+            onKeyDown={activate(toggleTheme)}
+            onFocus={onKeyboardFocus('lamp')}
+            onBlur={() => setFocus(null)}
+            className="cursor-pointer outline-none [-webkit-tap-highlight-color:transparent]">
+            
+            {/* Tight hit area: shade, pole and base only — leaves room for Claude below the shade */}
+            <rect x={216} y={94} width={22} height={14} fill="transparent" />
+            <rect x={229} y={94} width={20} height={18} fill="transparent" />
+            <rect x={243} y={110} width={8} height={42} fill="transparent" />
+            <rect x={238} y={150} width={18} height={6} fill="transparent" />
+          </g>
+
+          <g
+            role="button"
+            tabIndex={zoomed ? -1 : 0}
+            aria-label="Open laptop"
+            onClick={() => !zoomed && setZoom(true)}
+            onKeyDown={activate(() => !zoomed && setZoom(true))}
+            onFocus={onKeyboardFocus('laptop')}
+            onBlur={() => setFocus(null)}
+            className="cursor-pointer outline-none [-webkit-tap-highlight-color:transparent]">
+            
+            <rect x={120} y={107} width={80} height={51} fill="transparent" />
+            <rect x={104} y={157} width={112} height={17} fill="transparent" />
           </g>
 
           {/* Claude buddy + bubble hit area */}

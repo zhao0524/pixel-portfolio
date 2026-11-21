@@ -68,7 +68,7 @@ export const PROJECTS: LaptopScreenProject[] = [
     image: "/projects/spar.jpg",
     description: "An AI-powered mock interview platform where candidates debug real codebases while thinking out loud to a live voice AI interviewer. Evaluates problem-solving, communication, and coding behavior to generate a hiring-style report.",
     tags: ["React", "Voice AI", "AI"],
-    award: "Winner of Ignition Hack",
+    award: "Honourable Mention at Ignition Hacks",
     links: [
       { label: "GitHub", href: "https://github.com/zhao0524/Spar" },
       { label: "Devpost", href: "https://devpost.com/software/spar-9getb3" },

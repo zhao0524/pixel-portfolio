@@ -173,13 +173,13 @@ export function LaptopScreen({
                     aria-controls={`laptop-panel-${id}`}
                     id={`laptop-tab-${id}`}
                     onClick={() => setActive(id)}
-                    className={`flex w-full items-center justify-center gap-2 whitespace-nowrap px-3 py-2.5 text-xs uppercase tracking-wider transition-colors focus:outline-none focus-visible:bg-slate-800 ${
+                    className={`flex w-full items-center justify-center gap-2 whitespace-nowrap px-1.5 py-2.5 text-[11px] uppercase tracking-normal transition-colors sm:px-3 sm:text-xs sm:tracking-wider focus:outline-none focus-visible:bg-slate-800 ${
                     selected ?
                     'bg-emerald-400 text-slate-950' :
                     'text-slate-400 hover:bg-slate-900 hover:text-slate-100'}`
                     }>
                     
-                      <Icon className="h-3.5 w-3.5" />
+                      <Icon className="hidden h-3.5 w-3.5 sm:block" aria-hidden="true" />
                       {label}
                     </button>
                   </li>);
