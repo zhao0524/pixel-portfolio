@@ -137,26 +137,26 @@ export function LaptopScreen({
         role="region"
         aria-label={`${name}'s portfolio`}>
         
-          {/* Title bar */}
-          <div className="flex items-center justify-between border-b-2 border-slate-800 bg-slate-900 px-3 py-2">
-            <div className="flex items-center gap-1.5" aria-hidden="true">
-              <span className="h-2.5 w-2.5 bg-rose-400" />
-              <span className="h-2.5 w-2.5 bg-amber-300" />
-              <span className="h-2.5 w-2.5 bg-emerald-400" />
-            </div>
-            <p className="truncate text-xs text-slate-400">~/{name.toLowerCase()}/portfolio</p>
-            {onClose ?
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Close screen"
-            className="flex h-6 w-6 items-center justify-center text-slate-400 transition-colors hover:bg-slate-800 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400">
-            
-                <XIcon className="h-4 w-4" />
-              </button> :
+          {/* Title bar: the red light closes the screen */}
+          <div className="relative flex items-center border-b-2 border-slate-800 bg-slate-900 px-3 py-2">
+            <div className="flex items-center gap-1.5">
+              {onClose ?
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="Close screen"
+              title="Close"
+              className="group flex h-3 w-3 items-center justify-center bg-rose-400 text-rose-950 transition-colors hover:bg-rose-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-1 focus-visible:ring-offset-slate-900">
+              
+                  <XIcon className="h-2.5 w-2.5 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" strokeWidth={3} aria-hidden="true" />
+                </button> :
 
-          <span className="w-6" aria-hidden="true" />
-          }
+            <span className="h-3 w-3 bg-rose-400" aria-hidden="true" />
+            }
+              <span className="h-3 w-3 bg-amber-300" aria-hidden="true" />
+              <span className="h-3 w-3 bg-emerald-400" aria-hidden="true" />
+            </div>
+            <p className="pointer-events-none absolute inset-x-16 truncate text-center text-xs text-slate-400">~/{name.toLowerCase()}/portfolio</p>
           </div>
 
           {/* Nav */}
