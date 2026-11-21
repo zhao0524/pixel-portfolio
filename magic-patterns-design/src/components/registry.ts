@@ -350,7 +350,7 @@ Nested portfolio content layer rendered inside the pixel-room laptop screen when
 | Prop | Type | Default | Notes |
 | --- | --- | --- | --- |
 | \`name\` | \`string\` | \`'David'\` | Title bar path + About heading |
-| \`role\` | \`string\` | \`'Developer & Designer'\` | Tagline |
+| \`role\` | \`string\` | \`'Software Engineer'\` | Tagline |
 | \`bio\` | \`string\` | placeholder | About paragraph |
 | \`projects\` | \`LaptopScreenProject[]\` | \`DEFAULT_PROJECTS\` | \`{ title, description, tags, href? }\` |
 | \`experience\` | \`LaptopScreenExperience[]\` | \`DEFAULT_EXPERIENCE\` | \`{ role, company, period, summary }\` |
